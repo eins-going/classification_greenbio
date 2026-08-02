@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ffffff">
+  <title>그린바이오산업 특수분류(안)</title>
+  <style>
+:root{
+  color-scheme:light;
+  --bg:#f8fafd;
+  --surface:#ffffff;
+  --surface-2:#f1f3f4;
+  --surface-hover:#f8fafd;
+  --border:#dfe3e8;
+  --border-strong:#c4c7c5;
+  --text:#1f1f1f;
+  --text-muted:#5f6368;
+  --accent:#0b57d0;
+  --accent-strong:#0842a0;
+  --accent-soft:#e8f0fe;
+  --accent-soft-border:#a8c7fa;
+  --code-bg:#f1f3f4;
+  --shadow:none;
+  --radius:8px;
+  --tier-dae-ink:#0b57d0;
+  --tier-jung-ink:#137333;
+  --tier-so-ink:#7b1fa2;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+html{background:var(--bg);}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Google Sans Text","Google Sans","Roboto",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic","Noto Sans KR",sans-serif;
+  font-size:14.5px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+button{font:inherit;}
+::selection{background:var(--accent-soft);color:var(--text);}
+
+.wrap{max-width:1120px;margin:0 auto;padding:28px 28px 72px;}
+
+header.top{
+  display:flex;flex-direction:column;gap:5px;
+  margin-bottom:20px;padding:2px 2px 0;
+}
+header.top .title-row{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;
+}
+header.top h1{
+  font-size:30px;line-height:1.25;margin:0;font-weight:600;letter-spacing:-0.02em;
+  text-wrap:balance;color:var(--text);
+}
+header.top .doc-label{
+  font-size:14px;font-weight:500;color:var(--text-muted);
+  white-space:nowrap;letter-spacing:-0.01em;
+}
+
+nav.tabs{
+  display:flex;gap:2px;margin:0 0 24px;padding:0 10px;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  overflow-x:auto;scrollbar-width:none;
+}
+nav.tabs::-webkit-scrollbar{display:none;}
+nav.tabs button{
+  appearance:none;border:none;background:none;cursor:pointer;
+  min-height:48px;padding:11px 16px;font-size:14px;font-weight:500;color:var(--text-muted);
+  border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;
+}
+nav.tabs button:hover{color:var(--accent);background:var(--surface-hover);}
+nav.tabs button.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
+nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px;}
+
+.panel{display:none;}
+.panel.active{display:block;}
+#panel-status,#panel-method,#panel-download{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:24px 26px;
+}
+
+/* ---------- 개발원칙 tab ---------- */
+.method-lead{
+  font-size:13.5px;line-height:1.7;color:var(--text-muted);
+  max-width:84ch;margin:0 0 4px;
+}
+.method-block{margin:0 0 4px;}
+.method-block > ul{margin:8px 0 0;padding-left:18px;}
+.method-block li{margin:5px 0;line-height:1.65;font-size:13.5px;}
+.method-block li > ul{margin:4px 0 6px;padding-left:17px;}
+.method-block li > ul li{color:var(--text-muted);font-size:13px;margin:3px 0;}
+.method-block b{font-weight:600;}
+.law-box{
+  margin:14px 0 6px;padding:16px 18px;max-width:86ch;
+  background:var(--accent-soft);border:1px solid var(--accent-soft-border);
+  border-radius:var(--radius);
+}
+.law-box figcaption{
+  font-size:11.5px;font-weight:700;letter-spacing:.03em;
+  color:var(--accent-strong);margin-bottom:10px;
+}
+.law-box p{margin:0 0 7px;font-size:13.5px;line-height:1.78;}
+.law-box ol{margin:7px 0 4px;padding:0;list-style:none;}
+.law-box ol li{
+  font-size:13px;line-height:1.72;margin:3px 0;
+  padding-left:1.9em;text-indent:-1.9em;
+}
+.law-sub{
+  margin:9px 0 12px 1.9em;padding:11px 14px;
+  background:var(--surface);border:1px solid var(--accent-soft-border);
+  border-radius:6px;
+}
+.law-sub p{margin:0 0 6px;font-size:12.5px;line-height:1.72;color:var(--text-muted);}
+.law-sub p:last-child{margin-bottom:0;}
+.law-sub b{color:var(--text);font-weight:600;}
+
+.ref-table{
+  width:100%;border:1px solid var(--border);border-collapse:separate;border-spacing:0;
+  border-radius:8px;overflow:hidden;margin:10px 0 4px;background:var(--surface);font-size:13px;
+}
+.ref-table th,.ref-table td{
+  text-align:left;padding:8px 11px;border-bottom:1px solid var(--border);vertical-align:top;
+}
+.ref-table th{
+  background:var(--surface-hover);color:var(--text-muted);font-weight:600;font-size:12px;
+}
+.ref-table tr:last-child td{border-bottom:none;}
+.ref-table td.src{color:var(--text-muted);}
+
+/* ---------- 다운로드 tab ---------- */
+.dl-card{
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;background:var(--surface-hover);max-width:70ch;
+}
+.dl-card h3{margin:0 0 4px;font-size:15px;font-weight:600;}
+.dl-card p{margin:0 0 14px;font-size:13px;line-height:1.7;color:var(--text-muted);}
+.dl-btn{
+  appearance:none;border:1px solid var(--accent);border-radius:6px;background:var(--accent);
+  color:#fff;font-family:inherit;font-size:13.5px;font-weight:600;
+  min-height:40px;padding:9px 18px;cursor:pointer;
+}
+.dl-btn:hover{background:var(--accent-strong);border-color:var(--accent-strong);}
+.dl-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.dl-meta{margin-top:10px;font-size:12px;color:var(--text-muted);}
+
+/* ---------- 현황 tab ---------- */
+.section-title{
+  font-size:15px;font-weight:600;letter-spacing:0;
+  color:#3c4043;margin:32px 0 12px;
+}
+.section-title:first-child{margin-top:0;}
+
+.ecosystem-map{margin:16px 0 8px;}
+.eco-main{
+  display:grid;grid-template-columns:minmax(150px,1fr) 30px minmax(360px,2.2fr) 30px minmax(150px,1fr);
+  gap:8px;align-items:stretch;
+}
+.eco-card{
+  min-width:0;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px;box-shadow:none;
+}
+.eco-card .role,.eco-support-card .role{
+  font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  color:var(--text-muted);margin-bottom:6px;
+}
+.eco-card .name,.eco-support-card .name{
+  font-size:13.5px;font-weight:600;text-wrap:balance;line-height:1.4;
+}
+.eco-arrow{
+  align-self:center;justify-self:center;color:#80868b;font-size:18px;
+  line-height:1;user-select:none;
+}
+.eco-core-group{
+  min-width:0;border:1px solid var(--accent-soft-border);border-radius:10px;
+  padding:10px;background:#f3f7ff;box-shadow:none;
+}
+.eco-core-title{
+  display:flex;align-items:center;gap:7px;margin:0 2px 7px;
+  color:var(--accent);font-size:11px;font-weight:600;letter-spacing:.03em;
+}
+.eco-core-title::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);
+}
+.eco-core-flow{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);gap:6px;align-items:stretch;}
+.eco-core-flow .eco-card{border-color:#d2e3fc;box-shadow:none;}
+.eco-support-bridge{
+  display:grid;grid-template-columns:repeat(4,1fr);align-items:end;
+  height:27px;margin:0 5%;color:var(--accent);font-size:16px;font-weight:800;
+}
+.eco-support-bridge span{text-align:center;line-height:1;}
+.eco-support-card{
+  display:grid;grid-template-columns:minmax(180px,.85fr) minmax(0,2.15fr);
+  gap:18px;align-items:center;padding:14px 16px;background:var(--surface-hover);
+  border:1px solid var(--accent-soft-border);
+  border-radius:var(--radius);box-shadow:none;
+}
+.eco-support-card .role{margin-bottom:3px;}
+.eco-support-card .scope{
+  color:var(--text-muted);font-size:12.5px;line-height:1.5;
+  border-left:1px solid var(--border);padding-left:18px;
+}
+.dist-table{
+  width:100%;border:1px solid var(--border);border-collapse:separate;border-spacing:0;
+  border-radius:8px;overflow:hidden;margin:10px 0 4px;background:var(--surface);font-size:13.5px;
+}
+.dist-table th,.dist-table td{
+  text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);
+}
+.dist-table th{background:var(--surface-hover);color:var(--text-muted);font-weight:600;font-size:12px;letter-spacing:.01em;}
+.dist-table tbody tr:hover td{background:var(--surface-hover);}
+.dist-table td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;}
+.dist-table tr:last-child td{border-bottom:none;font-weight:600;background:var(--surface-hover);}
+
+/* ---------- 분류표 tab ---------- */
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  margin-bottom:14px;padding:8px;background:#f2f5f9;
+  border:1px solid #d8e0e9;border-radius:10px;
+}
+.level-controls{
+  display:inline-flex;flex-wrap:nowrap;gap:2px;align-items:center;padding:3px;
+  background:rgba(255,255,255,.86);border:1px solid #d8e0e9;border-radius:8px;
+}
+.definition-control{
+  display:inline-flex;align-items:center;gap:7px;min-height:36px;
+  padding:7px 11px;color:#465568;font-size:12.5px;font-weight:600;
+  cursor:pointer;white-space:nowrap;
+}
+/* 첫 토글만 남은 공간을 밀어내 오른쪽 묶음으로 만든다. */
+.definition-control:first-of-type{margin-left:auto;}
+.definition-control input{width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer;}
+.level-key{
+  appearance:none;display:inline-flex;justify-content:center;align-items:center;min-height:32px;padding:6px 14px;
+  border:0;border-radius:6px;background:transparent;color:#526173;
+  font-family:inherit;font-size:12.5px;font-weight:600;white-space:nowrap;cursor:pointer;
+  transition:background .15s,color .15s,box-shadow .15s;
+}
+.level-key:hover{background:#e8edf3;color:#24364b;}
+.level-key.active{
+  background:#345d82;color:#fff;box-shadow:0 1px 2px rgba(31,55,77,.18);
+}
+.level-key:focus-visible{outline:2px solid #345d82;outline-offset:2px;}
+
+.tree{display:flex;flex-direction:column;gap:8px;}
+.node{
+  border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  background:var(--surface);box-shadow:none;
+}
+.node-dae{--tier-ink:var(--tier-dae-ink);}
+.node-jung{--tier-ink:var(--tier-jung-ink);}
+.node-so{--tier-ink:var(--tier-so-ink);}
+.row{
+  display:flex;align-items:center;gap:10px;min-height:48px;padding:10px 12px;
+  background:var(--surface);
+  transition:background .15s;
+}
+.node > .row:hover{background:var(--surface-hover);}
+.node.expanded > .row,
+.node.def-open > .row,
+.node.biz-open > .row{border-bottom:1px solid var(--border);}
+.node > .kids{display:none;padding:10px 10px 12px 12px;background:var(--surface-hover);}
+.node.expanded > .kids{display:flex;flex-direction:column;gap:8px;}
+.row .code{
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px;
+  color:var(--tier-ink);background:var(--code-bg);border:1px solid var(--border);
+  border-radius:4px;padding:3px 7px;flex:0 0 auto;font-variant-numeric:tabular-nums;
+}
+.node-dae > .row .code{font-size:13px;font-weight:600;}
+.row .name{
+  min-width:0;color:var(--tier-ink);font-family:inherit;font-weight:500;font-size:14px;
+  flex:1 1 auto;text-align:left;text-wrap:balance;
+}
+.node-dae > .row .name{font-size:15px;font-weight:600;}
+.btn-node-name{
+  appearance:none;border:0;background:transparent;margin:0;padding:3px 2px;
+  min-width:0;cursor:pointer;border-radius:4px;
+}
+.btn-node-name:hover{color:var(--tier-ink);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+.btn-node-name:focus-visible,.btn-toggle:focus-visible,.btn-def:focus-visible{
+  outline:2px solid var(--tier-ink, var(--accent));outline-offset:2px;
+}
+.row-actions{
+  display:flex;align-items:center;gap:6px;margin-left:auto;flex:0 0 auto;
+}
+.btn-def{
+  appearance:none;border:1px solid var(--border);border-radius:6px;
+  min-height:32px;padding:4px 10px;font-size:12px;font-weight:600;background:var(--surface);
+  color:var(--tier-ink);cursor:pointer;font-family:inherit;
+  transition:background .15s,border-color .15s;
+}
+.btn-def:hover,.btn-def[aria-expanded="true"]{background:var(--surface-hover);border-color:var(--border-strong);}
+.btn-toggle{
+  appearance:none;border:0;border-radius:6px;background:transparent;color:var(--tier-ink);
+  width:32px;height:32px;padding:0;display:inline-grid;place-items:center;cursor:pointer;
+}
+.btn-toggle:hover{background:var(--surface-hover);}
+.row .chev{
+  display:inline-block;font-size:12px;line-height:1;transition:transform .15s;
+}
+.node.expanded > .row .chev{transform:rotate(90deg);}
+
+.node-detail{display:none;margin:10px 12px;gap:10px;}
+.node.def-open > .node-detail,
+.node.biz-open > .node-detail{display:flex;flex-wrap:wrap;align-items:flex-start;}
+.node-detail > *{flex:1 1 330px;min-width:0;}
+.node-detail > *[hidden]{display:none;}
+.biz-block{
+  padding:12px 14px;background:var(--surface-hover);
+  border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);
+}
+.biz-block .lbl{
+  font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--tier-ink);margin-bottom:5px;
+}
+.biz-list{margin:0;padding:0;list-style:none;}
+.biz-list li{margin:5px 0;line-height:1.6;}
+.biz-list a{color:var(--accent);text-decoration:none;}
+.biz-list a:hover{text-decoration:underline;text-underline-offset:3px;}
+.biz-list a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+.def-block{
+  padding:12px 14px;background:var(--surface-hover);
+  border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);
+  display:block;
+}
+.def-block .lbl{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--tier-ink);margin-bottom:3px;}
+.def-block .incl{margin-top:9px;}
+.def-block .excl{margin-top:9px;color:var(--text-muted);}
+.def-block .excl .lbl{color:var(--text-muted);}
+.def-block .def-list{margin:2px 0 0;padding-left:17px;}
+.def-block .def-list li{margin:3px 0;}
+
+@media (prefers-reduced-motion:reduce){.row .chev{transition:none;}}
+
+
+@media (max-width:760px){
+  .wrap{padding:24px 18px 60px;}
+  #panel-status{padding:20px;}
+  .eco-main{grid-template-columns:1fr;gap:6px;}
+  .eco-main > .eco-arrow,.eco-core-flow > .eco-arrow{
+    min-height:20px;transform:rotate(90deg);
+  }
+  .eco-core-flow{grid-template-columns:1fr;}
+  .eco-support-bridge{grid-template-columns:1fr;height:27px;margin:0;}
+  .eco-support-bridge span{display:none;}
+  .eco-support-bridge span:first-child{display:block;}
+  .eco-support-card{grid-template-columns:1fr;gap:5px;}
+  .eco-support-card .scope{
+    border-left:0;border-top:1px solid var(--border);padding:8px 0 0;
+  }
+}
+
+@media (max-width:640px){
+  .wrap{padding:20px 14px 56px;}
+  header.top{margin-bottom:17px;}
+  header.top h1{font-size:25px;}
+  nav.tabs{margin-bottom:18px;padding:0 6px;}
+  nav.tabs button{padding:10px 13px;}
+  #panel-status{padding:18px 16px;}
+  .toolbar{align-items:flex-start;padding:10px;}
+  .level-controls{flex:1;}
+  .node > .kids{padding-left:6px;padding-right:4px;}
+  .row{gap:7px;padding:9px 8px;align-items:flex-start;}
+  .row-actions{gap:4px;}
+  .btn-def{padding:4px 7px;}
+  .def-block{margin:8px;}
+}
+
+@media (max-width:520px){
+  .eco-card,.eco-support-card{padding:12px;}
+  .row .name{font-size:13.5px;}
+  .node-dae > .row .name{font-size:14px;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrap">  <header class="top">
+    <div class="title-row">
+      <h1>그린바이오산업 특수분류(안)</h1>
+      <span class="doc-label">&lt; 조승현 자문 의견서(제1차, 2026. 8. 3.) &gt;</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="status" class="active">1. 현황</button>
+    <button data-tab="table">2. 분류표</button>
+    <button data-tab="method">3. 개발원칙</button>
+    <button data-tab="download">4. 다운로드</button>
+  </nav>
+
+  <section id="panel-status" class="panel active"></section>
+  <section id="panel-table" class="panel"></section>
+  <section id="panel-method" class="panel"></section>
+  <section id="panel-download" class="panel"></section>
+
+</div>
+
+<script>
+const DATA = {"dae":[{"code":"1","name":"그린바이오 기자재 공급업","role":"직접 후방산업","roleDesc":"그린바이오 연구·생산에 직접 투입되는 특화 자재·기계·기구·장비의 제조·수입·전문유통","def":"생명공학 기술이 포함된 그린바이오 연구개발 또는 산업적 응용을 목적으로 활용되는 배지·효소·시약 등의 소모성 자재와 배양·발효·분리·정제·분석 등의 기계·기구·장비 및 공정용 부품을 제조하거나 수입하고, 구입한 해당 재화를 본질적으로 변형하지 않고 그린바이오 연구자 또는 생산자에게 공급하는 산업활동을 말한다. 해당 기자재는 그린바이오 용도로 전용되거나 주로 사용되거나 그린바이오 생물자원·공정·품질·안전 요건에 맞게 실질적으로 특화된 것으로 한정한다. 살아 있는 생물자원 자체는 제외한다.","include":["식물조직·세포·미생물·곤충세포 배양용 배지와 배양기질","산업용·연구실험용 효소·시약, 완충용액, 시약키트, 유전자 벡터·발현시스템","유전자·종자·균주 판별시약, 공정용 담체와 분리·정제재","바이오리액터, 발효조, 배양·분리·정제·분석장비","세포계수기·배양기·생물반응기, 여과시스템·동결건조기 등 연구·생산 장비","일회용 세포배양용기·혼합용기 등 공정용 부품과 공정 소프트웨어","종자 처리·검사장비, 산업용 곤충 사육·환경제어·선별장비","생물공정용 센서·자동화·공정제어 시스템","위 재화의 제조, 수입·도매 및 판매에 부수되는 설치·초기 운용지원"],"exclude":["종자·균주·세포주·미생물·곤충 등 살아 있는 생물자원의 증식·생산 → 그린바이오 생물자원 생산업(대분류 2)","생물농약·미생물비료·사료첨가제·동물용 바이오의약품 등 농업·식품·의약 수요처에서 기능하는 그린바이오 산출물의 제조 → 그린바이오 제품 제조업(대분류 3)","타사가 생산한 그린바이오 생물자원·소재·제품의 독립 유통 → 그린바이오 생물자원·제품 도소매업(대분류 4)","장비의 독립 임대·수리·유지관리·검증·교정·교육 → 그린바이오 관련 서비스업(대분류 5)","범용 펌프·탱크·컴퓨터·일반 실험소모품·건축자재·운송수단","그린바이오기업에 납품했다는 사실 외에 특화성을 입증할 수 없는 범용 재화"]},{"code":"2","name":"그린바이오 생물자원 생산업","role":"핵심산업 및 직접 후방 연계","roleDesc":"생명공학 적용 생물자원의 생산과 확인된 그린바이오 공정에 계약·규격으로 공급되는 생물자원 생산분","def":"농업에 실제적이거나 잠재적인 가치가 있는 동물·식물·미생물 등 생물체의 실물과 그 실물에서 파악한 유용한 정보를 포함하는 생물자원에 생명공학 관련 기술을 직접 적용하여 새로운 기능을 가진 생물체를 발굴·육종·제작하거나, 그 기술이 적용된 종자·종묘·미생물·균주·세포·곤충·식물자원의 생물학적 정체성과 원형을 유지하며 재배·증식·배양·사육하여 생산하는 산업활동을 말한다. 자체 기술 적용이 없더라도 확인된 그린바이오 생산·제조공정의 규격과 계약에 따라 생물자원을 직접 생산·공급하고 해당 품목·매출을 일반 생산분과 분리할 수 있으면 그 공급분만 포함한다.","include":["분자육종·유전체 분석·유전자편집 등을 적용한 종자·종묘의 증식·생산","생물체의 기능·유전정보를 활용한 유용 생물자원의 발굴·육종·제작","산업용 종균·균주·미생물·세포주 자체의 배양·증식","바이오기술을 적용한 유용곤충의 사육·증식","그린바이오 소재용 기능성 작물·천연물 자원의 관리재배","자체 생산물의 원형 유지를 위한 수확·세척·선별·소독·단순건조·포장과 직접판매"],"exclude":["생명공학 적용 또는 확인된 그린바이오 공정으로의 계약·규격 공급이 없는 일반 재배·사육·채취","외부 원물을 구매해 추출·분쇄·배합·제형화하는 활동 → 그린바이오 제품 제조업(대분류 3)","배양을 수단으로 효소·단백질·대사산물·식품을 제조하는 활동 → 그린바이오 제품 제조업(대분류 3)","조직·핵산·단백질·추출물 등 생물자원의 파생물을 분리·가공하여 소재로 제조 → 그린바이오 제조업(대분류 3)","타사가 생산한 생물자원을 매입·재판매 → 그린바이오 생물자원·제품 도소매업(대분류 4)","외부 고객의 품종·균주 개발만 수행하는 연구서비스 → 그린바이오 관련 서비스업(대분류 5)"]},{"code":"3","name":"그린바이오 제품 제조업","role":"핵심산업","roleDesc":"그린바이오 생물자원·기술을 직접 이용한 소재·제품의 제조","def":"그린바이오 생물자원 또는 생물공정을 연구개발 또는 생산 과정에 이용하고, 원재료에 물리적·화학적 또는 생물학적 작용을 가하여 투입된 원재료를 성질·형태·기능 또는 용도가 다른 새로운 소재나 제품으로 전환하는 산업활동을 말한다. 추출·분리·정제·발효·생물전환·분쇄·농축·배합·제형화 등의 처리활동을 포함한다. 상품의 본질적 성질을 변화시키지 않는 단순 선별·정리·분할·포장 또는 재포장은 제조활동으로 보지 않는다.","include":["바이오농약·미생물비료·바이오사료·사료첨가제","발효·효소·세포공정을 이용한 식품소재·기능성 원료·대체식품","천연물·곤충·미생물 유래 추출물·분말·오일·단백질·향장소재","동물용 백신·바이오의약품과 그 원료·제제","자영 또는 임가공 방식으로 수행하는 제조·배양·발효와 위탁생산","자기 제조제품의 직접판매"],"exclude":["생물자원 자체의 증식·생산과 원형 유지 처리 → 그린바이오 생물자원 생산업(대분류 2)","생명공학·생물공정 직접성이 없는 일반 식품·사료·비료·화장품·의약품 제조","타사 완제품의 변형 없는 재판매 → 그린바이오 생물자원·제품 도소매업(대분류 4)","연구·시험·공정개발만 제공하고 물리적 재화를 산출하지 않는 용역 → 그린바이오 서비스업(대분류 5)","그린바이오 제품을 만드는 데 사용되는 배지·공정시약·전용장비 제조 → 그린바이오 기자재 공급업(대분류 1)"]},{"code":"4","name":"그린바이오 생물자원·제품 도소매업","role":"직접 전방산업","roleDesc":"핵심산업에서 생산·제조된 생물자원·소재·제품의 도소매·중개","def":"다른 사업체가 생명공학 관련 기술을 적용하여 생산했거나 그 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하도록 제조한 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품 분야의 생물자원·소재·제품을 구입하거나 위탁받아 본질적 성질을 변형하지 않고 재판매하거나 그 거래를 중개하는 산업활동을 말한다. 해당 생물자원·소재·제품의 품목과 매출을 다른 상품과 구분하여 식별할 수 있는 경우로 한정한다. 그린바이오 연구·생산에 사용하는 기반재·장비의 공급과 생산·제조 사업체가 자기 생산물을 직접 판매하는 활동은 제외한다.","include":["타사가 생산한 종자·균주·미생물·곤충 등 생물자원의 유통","그린바이오 소재·생물농자재·식품소재·동물용 바이오의약품 등의 중개·도매","그린바이오 재화가 주된 상품군인 전문 소매·온라인 판매","판매에 부수되는 선별·재포장·저온보관·배송·추적관리"],"exclude":["그린바이오 연구·생산용 기반재·공정재·장비의 제조·수입·도매 → 그린바이오 기자재 공급업(대분류 1)","생산·제조기업의 자기 생산물 직접판매 → 그린바이오 생물자원 생산업 또는 제조업의 부수활동","재화의 기능·성질을 바꾸는 가공 → 그린바이오 제품 제조업(대분류 3)","그린바이오 매출을 분리할 수 없는 종합도소매·대형마트·일반 온라인몰","독립 운송·창고·품질검사 서비스 → 그린바이오 직접성 충족 시 그린바이오 관련 서비스업(대분류 5), 아니면 제외"]},{"code":"5","name":"그린바이오 관련 서비스업","role":"직접 지원산업","roleDesc":"전 가치사슬에 직접 제공되는 연구·시험·교육·정보·사업화 등의 서비스","def":"바이오 관련 정보와 지식이 체화된 유·무형의 중간재를 생산과정에 집약적으로 활용하고, 수수료 또는 계약에 의하여 그린바이오 기술·생물자원·소재·제품의 연구개발, 시험·분석, 유통·사업화 또는 전문인력 양성과 관련된 고부가가치 서비스를 외부 이용자에게 제공하는 산업활동을 말한다. 그린바이오 관련 계약·매출·전문인력 또는 전용시설을 다른 활동과 구분하여 식별할 수 있는 경우로 한정한다. 물리적 재화의 생산·재판매와 동일 기업 내부에서 수행하는 연구·품질관리 등은 제외한다.","include":["독립·위탁 연구개발과 품종·균주·공정 개발","효능·독성·위해성·품질 시험과 성분·유전체·생물정보 분석","인증·인허가·규제·품질체계 지원","그린바이오 전문교육·훈련, 데이터·정보·소프트웨어 서비스","기술이전·사업화·창업·수출 등 그린바이오 직접지원","기자재의 독립 임대·수리·검증·교정·유지관리","그린바이오 전용 물류·저장 서비스가 별도 사업체의 주활동인 경우"],"exclude":["생산·제조기업 내부 R&D·품질관리·교육 → 해당 주활동의 부수활동","자영 또는 임가공 방식으로 생물자원 자체를 생산하는 증식·배양·사육 → 그린바이오 생물자원 생산업(대분류 2)","자영 또는 임가공 방식으로 물리적 소재·제품을 실제 생산하는 제조·발효 → 그린바이오 제조업(대분류 3)","일반 대학 교육, 일반 법률·회계·금융·광고·운송·창고·IT 서비스","고객 중 그린바이오기업이 일부 있다는 이유만으로 포함되는 범용 서비스"]}],"jung":[{"code":"11","dae":"1","criterion":"기자재를 직접 제조하는 활동","name":"그린바이오 기자재 제조업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품의 연구·생산·제조에 직접 사용되며, 그 용도로 전용되거나 주로 사용되거나 해당 공정의 품질·안전 요건에 맞게 실질적으로 특화된 자재, 연구·분석장비 또는 생산·공정장비를 직접 제조하는 산업활동을 말한다. 자체 제조한 기자재의 판매는 제조업에 포함한다.","include":["배지·시약·효소·공정재","유전·세포·성분·품질 분석장비","배양·발효·분리·정제·건조·제형·환경제어장비의 제조"],"exclude":["타사 제품의 매입·수입·재판매, 범용 실험소모품·컴퓨터·계측기, 장비 임대·수리·교정 서비스"]},{"code":"12","dae":"1","criterion":"타사 제조 기자재의 매입·수입·재판매","name":"그린바이오 기자재 도매업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품의 연구·생산·제조에 전용되거나 주로 사용되도록 특화된 자재, 연구·분석장비 또는 생산·공정장비로서 타사가 제조한 것을 매입하거나 수입하여 사업체·연구기관·생산자에게 본질적으로 변형하지 않고 재판매하는 산업활동을 말한다. 관련 품목·계약·매출을 일반 기자재와 분리할 수 있어야 한다.","include":["외국산 특화 배지·시약·장비의 수입·도매","국내 타사 제조 기자재의 전문 도매"],"exclude":["자체 제조 기자재의 판매, 최종소비자 대상 소매, 범용 기자재의 종합도매"]},{"code":"21","dae":"2","criterion":"품종·종자·종묘 및 소재 원료용 식물 생산","name":"그린바이오 식물자원 생산업","def":"생명공학 관련 기술을 적용하여 식물 품종과 증식 기반자원을 개발·생산하거나 종자·종묘를 증식·생산하고, 그린바이오 소재·제품의 원료로 사용하는 식물체 또는 수확물을 재배·생산하는 산업활동을 말한다. 번식용 자원과 소재 원료용 수확물은 소분류와 공급용도 속성으로 구분한다."},{"code":"22","dae":"2","criterion":"곤충자원 자체의 사육·증식","name":"그린바이오 곤충자원 생산업","def":"생명공학 관련 기술을 적용해 산업용 곤충(「곤충산업의 육성 및 지원에 관한 법률」상 곤충, 즉 분류학상 곤충강에 속하는 동물과 거미류·지네류 등 같은 법이 정하는 무척추동물)의 계통·품종을 선발·개량하고 종충·종란을 생산하거나 식품·사료·방제·소재용 곤충을 증식·사육하는 산업활동을 말한다."},{"code":"23","dae":"2","criterion":"미생물·균주·세포 자체의 배양·증식","name":"그린바이오 미생물 및 세포·조직자원 생산업","def":"그린바이오 분야에 이용할 미생물·종균·균주·세포·조직자원을 생명공학 관련 기술로 발굴·제작·배양·증식하여 자원 자체로 생산하는 산업활동을 말한다. 가축의 번식과 품종개량에 사용하는 정액·난자·수정란·배아를 채취·처리·보존하여 생산하는 활동은 제외한다."},{"code":"31","dae":"3","criterion":"농작물·토양·재배환경에 투입되는 기능성 제품","name":"그린바이오 작물재배용 제품 제조업","def":"그린바이오 생물자원 또는 생명공학 관련 기술·생물공정을 직접 이용하여 농작물에 피해를 주는 균·곤충·응애·선충·바이러스·잡초 등의 병해충을 방제하거나 농작물의 생리기능을 증진·억제하는 제품, 또는 식물에 영양을 공급하고 재배를 돕거나 토양을 개량하는 제품을 제조하는 산업활동을 말한다.","include":["바이오농약","미생물비료","생물촉진제","천적·페로몬 기반 방제제품"],"exclude":["종자·종묘·미생물·균주·세포·곤충·기능성 식물자원 자체의 생산, 생명공학·생물공정 직접성이 없는 화학농약·일반 유기질비료, 연구·생산공정에 투입되는 배지·시약 등 자재의 공급"]},{"code":"32","dae":"3","criterion":"가축·반려동물용 사료·첨가제","name":"그린바이오 사료·사료첨가제 제조업","def":"그린바이오 생물자원 또는 생명공학 관련 기술·발효·효소 등 생물공정을 직접 이용하여 동물의 영양·건강유지·성장에 필요한 제품을 제조하는 산업활동을 말한다. 식물성·동물성·광물성 물질을 그대로 사료나 배합원료로 사용하는 단미사료, 단미사료와 보조사료 등을 적정한 비율로 배합·가공한 배합사료, 사료의 품질저하를 방지하거나 효용을 높이기 위해 첨가하는 보조사료를 포함한다.","include":["발효사료","곤충사료","생균제·효소제·아미노산 등 생물기반 사료첨가제"],"exclude":["생명공학·생물공정 직접성이 없는 일반 배합사료, 사람이 섭취하는 식품원료·식품의 제조, 동물 질병의 진단·치료·예방 등을 목적으로 하는 동물용 의약품의 제조"]},{"code":"33","dae":"3","criterion":"식품 제조용 소재와 식용 제품","name":"그린바이오 식품원료·식품 제조업","def":"농업에 실제적이거나 잠재적인 가치가 있는 동물·식물·미생물 등 생물체와 그 실물에서 파악한 유용한 정보, 산업적으로 이용되는 곤충 또는 육상·해양 생물체와 그 세포·조직배양 산물 등 생물기원 천연물을 직접 이용하거나 생명공학 관련 기술·생물공정을 직접 적용하여 식품 제조용으로 분말·액상 등 별도 형태로 가공된 원재료·중간생산물, 식품첨가물 또는 기능성 원료를 제조하는 산업활동을 말한다. 식용 완제품은 농업에 실제적·잠재적 가치가 있는 미생물, 산업적으로 이용되는 곤충 또는 육상·해양 동식물과 그 세포·조직배양 산물 등 생물기원 천연물을 원료나 공정에 이용하고, 생명공학 관련 기술·생물공정이 제품의 특성이나 제조공정에 직접 기여하는 경우에만 조건부로 포함한다. 다른 식품의 제조에 투입되는 중간투입물과 소비자가 그대로 섭취하는 식용 완제품으로 나누어 하위 분류한다. 중간투입물은 최종식품의 구성 성분을 이루는 원재료·중간생산물과 기술적 효과를 위해 소량 쓰는 첨가물·효소를 **하나의 소분류(331)로 묶는다** — 「식품등의 표시기준」이 첨가물을 원재료명에 함께 적도록 하고 있어 거래 현장에서 두 갈래가 분리되지 않기 때문이다. 다만 「식품위생법 시행령」 제21조는 식품제조·가공업과 식품첨가물제조업을 별개 영업으로 두므로, 조사표에서 영업 종류와 품목별 매출을 함께 받아 사후에 분리할 수 있게 한다.","include":["식품원료·중간소재","식품용 효소·첨가물","미생물활용·발효식품","건강기능성식품","곤충식품","대체식품"],"exclude":["생명공학·생물공정 직접성이 없는 일반 가공식품, 동물의 영양·건강·성장에 사용하는 사료·사료첨가제, 향장·산업용 등 비식용 천연물 소재·제품"]},{"code":"34","dae":"3","criterion":"동물용 백신·생물학적 제제 등","name":"그린바이오 동물용 의약품 제조업","def":"기구·기계·장치가 아닌 물품 중 동물용으로만 사용할 목적으로 생명공학 관련 기술이나 생물체·생물유래 물질을 이용하여 동물의 질병을 진단·치료·경감·처치·예방하거나 동물의 구조·기능에 약리학적 영향을 주는 백신, 생물학적 제제, 진단제와 그 원료를 제조하는 산업활동을 말한다.","include":["동물용 백신·항체·재조합 단백질 의약품·생물학적 진단제"],"exclude":["비바이오 합성 동물용 의약품, 동물의 영양·건강·성장에 사용하는 사료·사료첨가제·영양제, 동물을 직접 진료하는 수의 서비스와 외부 고객에게 제공하는 의약품 시험·분석 서비스"]},{"code":"39","dae":"3","criterion":"향장·생활용 또는 비식용·비사료용 산업 소재·제품","name":"기타 그린바이오 제품 제조업","def":"그린바이오 생물자원 또는 생명공학 관련 기술·생물공정을 직접 이용하여 향장·생활용 소재·제품이나 비식용·비사료용 산업 소재·제품을 제조하는 산업활동을 말한다. 작물재배용 제품, 사료·사료첨가제, 식품원료·식품 및 동물용 의약품은 제외한다. 생물기원·천연·친환경이라는 표시만으로 포함하지 않는다.","include":["천연물·곤충·미생물 유래 향장소재·화장품","산업용 효소·추출물·생물소재"],"exclude":["바이오연료·범용 바이오화학 등 그린바이오 직접성이 없는 화이트바이오 제품"]},{"code":"41","dae":"4","criterion":"사업자 대상 자기 계정 매입·재판매","name":"그린바이오 생물자원·제품 도매업","def":"타사가 생산·제조한 다음의 그린바이오 생물자원·소재·제품을 구입하여 소매업자·산업사용자·기관 등에 재판매하거나 그 거래를 중개하는 산업활동을 말한다. 그 대상은 생명공학 관련 기술을 적용해 개발·육종·증식·배양·사육했거나 확인된 그린바이오 공정의 규격·계약에 따라 생산한 종자·종묘·미생물·균주·세포·곤충·기능성 식물자원과, 그린바이오 생물자원 또는 생명공학 관련 기술·생물공정을 직접 이용해 제조한 작물재배용 제품·사료·식품원료·식품·동물용 의약품·비식용 소재·제품이다. 해당 품목과 매출을 일반 상품과 구분하여 식별할 수 있는 경우로 한정한다.","include":["생명공학 관련 기술을 적용하거나 확인된 그린바이오 공정의 규격·계약에 따라 생산하고","해당 기술·공정의 직접 기여와 품목·매출을 분리 확인할 수 있는 타사 종자·종묘·균주·세포·곤충·기능성 식물원물·바이오농약·미생물비료·생물기반 사료·식품소재·동물용 바이오의약품·향장소재 등의 사업자·기관 대상 재판매"],"exclude":["그린바이오 직접성을 확인할 수 없는 일반 종자·식품·화장품·동물용의약품 도매, 자기 생산물 판매, 그린바이오 연구·생산용 배지·시약·분석장비·공정장비의 도매"]},{"code":"42","dae":"4","criterion":"최종 수요자 대상 판매","name":"그린바이오 생물자원·제품 소매업","def":"타사가 생산·제조한 다음의 그린바이오 생물자원·소재·제품을 일반소비자 또는 최종 수요자에게 판매하는 산업활동을 말한다. 전문점·전자상거래를 통한 판매를 포함한다. 그 대상은 생명공학 관련 기술을 적용해 개발·육종·증식·배양·사육했거나 확인된 그린바이오 공정의 규격·계약에 따라 생산한 종자·종묘·미생물·균주·세포·곤충·기능성 식물자원과, 그린바이오 생물자원 또는 생명공학 관련 기술·생물공정을 직접 이용해 제조한 작물재배용 제품·사료·식품원료·식품·동물용 의약품·비식용 소재·제품이다. 해당 품목과 매출을 일반 상품과 구분하여 식별할 수 있는 경우로 한정한다.","include":["생명공학 관련 기술을 적용하거나 확인된 그린바이오 공정의 규격·계약에 따라 생산하고","해당 기술·공정의 직접 기여와 품목·매출을 분리 확인할 수 있는 타사 종자·종묘·곤충·기능성 식물원물·식품·동물용 바이오의약품·화장품 등의 일반소비자·최종 수요자 대상 전문점·전자상거래 판매"],"exclude":["그린바이오 직접성을 확인할 수 없는 일반 원예·애완곤충·식품·화장품 종합소매, 자기 생산물 판매, 그린바이오 연구·생산용 배지·시약·분석장비·공정장비의 소매"]},{"code":"51","dae":"5","criterion":"외부 고객 대상 연구·품종·균주·공정 개발","name":"그린바이오 연구개발 서비스업","def":"수수료 또는 계약에 따라 외부 고객에게 생명공학 관련 기술·생물공정이 직접 적용되는 종자·종묘·미생물·균주·세포·곤충·천연물·식품 제조용 원재료·동물용 의약품·그 밖의 소재·제품이나 그 생산공정에 관한 연구개발·설계 결과를 제공하는 산업활동을 말한다. 대상 기술·재화·공정과 계약·매출을 일반 연구개발과 구분할 수 있어야 한다. 계약 명칭과 관계없이 생물자원 자체를 증식·생산하는 위탁활동은 생물자원 생산업으로, 원재료를 가공하여 물리적 소재·제품을 실제 산출하는 위탁활동은 제조업으로 분류한다.","include":["생명공학 관련 기술·생물공정이 직접 적용되는 종자·균주·세포·소재·제품·공정에 관한 외부 연구개발 계약 중 대상 프로젝트·계약·매출을 일반 연구개발과 분리할 수 있는 활동"],"exclude":["사람 의료·일반 생명과학 R&D, 자체 제품개발, 실제 재화를 산출하는 위탁생산"]},{"code":"52","dae":"5","criterion":"생물정보·데이터·전문 소프트웨어","name":"그린바이오 정보·데이터 서비스업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품의 연구·생산·제조에 직접 사용되는 생물정보 데이터베이스, 데이터 처리·해석, 전문 소프트웨어와 디지털 플랫폼을 외부 이용자에게 제공하는 산업활동을 말한다. 특정 시료·프로젝트의 분석보고서가 주된 산출물이면 시험·인증 서비스로 분류하며, 범용 IT·스마트농업 서비스는 제외한다.","include":["종자·미생물·곤충·천연물·식품소재·동물용 의약품 또는 이들의 생산·제조에 직접 적용되는 생명공학·생물공정 데이터에 특화되고","이용대상·계약·매출을 일반 정보서비스와 분리할 수 있는 지속형 데이터베이스·정보·소프트웨어·플랫폼"],"exclude":["사람 의료·일반 바이오 데이터베이스, 범용 ERP·클라우드·스마트농업 플랫폼, 특정 시료·프로젝트에 대한 개별 시험·분석보고서"]},{"code":"53","dae":"5","criterion":"외부 대상 전문인력 교육·훈련","name":"그린바이오 교육 서비스업","def":"외부 이용자를 대상으로 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품에 적용되는 생명공학 관련 기술과 그 생산·제조공정, 품질·안전·규제와 사업화에 관한 전문 교육·실습·훈련을 제공하는 산업활동을 말한다. 일반 정규교육과 제품판매에 부수되는 사용설명은 제외한다.","include":["종자·미생물·곤충·천연물·식품소재·동물용 의약품 및 관련 생명공학·생물공정의 생산·품질·규제·사업화에 관한 외부 유상 교육·훈련 중 교육대상·계약·매출을 일반 교육과 분리할 수 있는 활동"],"exclude":["일반 바이오·경영·정규교육, 자사 직원훈련, 제품판매에 부수되는 사용설명, 특정 기업의 인허가·기술이전·창업·수출·경영 자문"]},{"code":"54","dae":"5","criterion":"시험·검사·분석·평가·인증 지원","name":"그린바이오 관련 시험·인증 서비스업","def":"외부 고객의 그린바이오 생물자원·소재·제품에 대해 효능·독성·위해성·품질 시험, 유전체·성분·생물정보 분석, 검사·검증 또는 인증을 제공하는 산업활동을 말한다. 인증 취득을 위한 자문만 제공하는 활동은 시험·인증 서비스가 아니라 사업화·전문지원 서비스로 분류한다.","include":["생명공학 관련 기술이 적용되었거나 확인된 그린바이오 공정의 규격·계약에 따라 생산된 종자·미생물·곤충·천연물·식품소재·동물용 의약품과 관련 공정의 시험·분석·검사·인증 중 대상 프로젝트·계약·매출을 일반 시험과 분리할 수 있는 활동"],"exclude":["일반 의약·식품·환경 시험, 내부 품질관리, 시설·장비 자체의 검증·교정 서비스, 인증 취득을 위한 준비·인허가 자문"]},{"code":"59","dae":"5","criterion":"인허가·사업화 지원, 시설·장비 활용, 전문물류·운영지원","name":"기타 그린바이오 관련 서비스업","def":"그린바이오 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하는 재화의 사업화와 생산활동을 지원하는 서비스 중, 연구개발(`51`)·시험·인증(`54`)·정보데이터(`53`)·교육(`53`)에 해당하지 않는 것을 수수료·계약에 따라 외부 고객에게 제공하는 산업활동을 말한다. 인허가·규제 대응과 품질·안전·인증체계 구축 자문, 기술이전·지식재산·창업·투자유치·수출 지원, 전용·특화 시설·장비의 임대·공동활용·유지관리·수리·검증·교정, 생물학적 품질·안전·저온·추적성이 요구되는 전문 물류·보관과 시설·공정 운영지원의 네 갈래를 포함한다. 연구개발(`51`), 시험·인증(`54`), 정보·데이터(`52`), 교육(`53`)의 정의에 해당하면 그 코드를 우선하고, 어느 것에도 해당하지 않는 지원서비스만 이 중분류로 분류한다.","include":["특정 그린바이오 제품·기술의 인허가·품질체계·기술이전·사업화 계약","전용·특화 시설·장비의 임대·공동활용·유지관리","생물학적 요건에 특화된 물류·보관·운영지원 중 계약·매출을 일반 서비스와 분리할 수 있는 활동"],"exclude":["시험·검사·검증·심사 결과를 발급하는 서비스, 조직적 교육, 시설·장비의 판매와 부수 설치, 상품 매매와 CMO·CDMO, 그린바이오 계약·전담역량·매출을 분리하지 못하는 일반 RA·ISO·창업·광고·법률·회계·금융 지원과 일반 장비수리·임대·냉장물류·공장운영"]}],"so":[{"code":"111","jung":"11","name":"그린바이오 연구·생산용 자재 제조업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품의 연구·생산·제조 공정에 전용되거나 주로 사용되도록 특화된 배지·배양기질·시약·효소·완충용액·시약키트·유전자 벡터·담체·공정재 등 소모성 자재를 직접 제조하는 산업활동을 말한다.","exclude":"그 연구·생산·제조 공정에 대한 전용·주사용·특화를 증빙할 수 없는 범용 실험소모품의 제조와 타사가 제조한 자재의 매입·수입·재판매는 제외한다.","examples":[{"name":"(유)트루바이오","url":"https://www.kbiois.or.kr/portal/bioCompany/bioCompanyDetailPage.do?upchecd=JV3301"},{"name":"다인바이오㈜","url":"http://www.dynebio.co.kr"},{"name":"㈜세니젠","url":"https://sanigen.kr/html/dh/intropage"}]},{"code":"112","jung":"11","name":"그린바이오 연구·분석장비 제조업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품과 그 생산·제조공정을 대상으로 유전·세포·생물정보 또는 성분·품질·안전을 시험·측정·분석하는 데 전용되거나 주로 사용되도록 특화된 장비와 그 전용 부품을 직접 제조하는 산업활동을 말한다.","exclude":"사람 의료 전용 장비와 범용 계측기의 제조, 타사 장비의 매입·수입·재판매 및 장비를 이용해 외부 고객에게 분석결과를 제공하는 용역은 제외한다.","examples":[{"name":"㈜제놀루션","url":"https://genolution.co.kr/wp-content/uploads/2022/08/NX-Junior-Br.pdf"},{"name":"㈜진시스템","url":"https://www.genesystem.co.kr"}]},{"code":"113","jung":"11","name":"그린바이오 생산·공정장비 제조업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품의 생산·제조에 사용하는 배양·발효·분리·정제·건조·제형 장비 또는 생물자원의 증식·사육·재배 환경제어 장비로서, 해당 공정의 생물학적 품질·안전 요건에 맞게 전용되거나 주로 사용되도록 특화된 것을 직접 제조하는 산업활동을 말한다.","exclude":"범용 펌프·탱크·공정기계의 제조, 타사 장비의 매입·수입·재판매와 장비의 임대·유지관리 서비스는 제외한다.","examples":[{"name":"㈜일신바이오베이스","url":"https://kind.krx.co.kr/external/2023/11/14/000460/20231114000946/11013.htm"},{"name":"㈜이오기술","url":"http://eo-tech.kr"}]},{"code":"120","jung":"12","name":"그린바이오 기자재 도매업","def":"생명공학 관련 기술이 적용되는 종자·미생물·곤충·천연물·식품 제조용 원재료·동물용 의약품의 연구·생산·제조에 전용되거나 주로 사용되도록 특화된 타사 제조 기자재를 매입하거나 수입하여, 본질적으로 변형하지 않고 사업자·연구기관·생산자에게 재판매하며 해당 품목·매출을 일반 기자재와 분리하는 산업활동을 말한다. 배지·시약·효소·시약키트·담체·공정재 등 소모성 자재, 유전·세포·생물정보와 성분·품질·안전을 시험·측정·분석하는 연구·분석장비, 배양·발효·분리·정제·건조·제형 장비와 생물자원 증식·사육·재배 환경제어 장비 등 생산·공정장비를 포함한다.","exclude":"자체 제조한 기자재의 판매, 전용·주사용·특화를 증빙할 수 없는 범용 소모품·계측기·공정기계의 도매, 사람 의료 전용 장비의 도매와 최종소비자 대상 소매는 제외한다. 장비를 이용해 외부 고객에게 분석결과를 제공하는 용역과 장비의 임대·유지관리 서비스도 제외한다.","examples":[{"name":"기산바이오㈜","url":"https://www.kisanbio.com"},{"name":"㈜다윈바이오","url":"https://www.dawinbio.com"},{"name":"㈜엘씨케이테크놀로지스","url":"https://www.lcktech.co.kr"},{"name":"㈜에스앤씨","url":"https://www.sncbio.co.kr"},{"name":"㈜바이오스트림 테크놀러지스","url":"https://www.biostream.co.kr/business/bio.php"}]},{"code":"211","jung":"21","name":"그린바이오 종자·종묘 생산업","def":"생명공학 관련 육종·유전체·선발·편집 기술을 적용하여 식물 품종을 개발하거나 해당 품종의 원원종·원종·모본·부본·보급종·판매용 종자·묘목·묘종·조직배양묘를 생산·증식하는 산업활동을 말한다.","exclude":"외부 고객에게 연구개발 결과만 제공하는 활동, 기술 적용이 확인되지 않는 일반 품종·종자·종묘 생산과 소재 원료 수확 목적의 식물재배는 제외한다. 「종자산업법」상 종자에 포함되는 버섯 종균 등 균류의 종자원 생산도 제외한다.","examples":[{"name":"NH농우바이오","url":"https://kind.krx.co.kr/external/2026/06/08/000568/20260608001135/11013.htm"},{"name":"농업회사법인 아시아종묘㈜","url":"http://www.asiaseed.net"},{"name":"농업회사법인 권농종묘㈜","url":"https://kwonnong.com"}]},{"code":"212","jung":"21","name":"그린바이오 소재 원료용 식물 생산업","def":"유용성분·기능성 형질의 탐색·선발·개량 또는 생산관리에 생명공학 관련 기술을 적용하거나, 확인된 그린바이오 소재·제품 제조공정의 성분·품질규격 또는 계약에 따라, 그 원료로 사용하는 식물체 또는 수확물을 재배·생산하는 산업활동을 말한다. 노지·시설·수경·식물공장 등 재배방식은 묻지 않으며, 수확물이 실제로 그린바이오 소재·제품의 원료로 공급되는 관계가 확인되어야 한다.","exclude":"원료 공급관계와 생명공학 관련 기술 적용이 모두 확인되지 않는 일반 식용·약용 작물재배와, 수확물을 분쇄·농축·추출·정제하여 별도 소재로 제조하는 활동은 제외한다.","examples":[{"name":"㈜우리스마트바이오","url":"https://woorismartbio.com/"},{"name":"㈜농부심보","url":"https://www.nongboomind.com"},{"name":"㈜애그유니","url":"https://ag-uni.com"}]},{"code":"221","jung":"22","name":"그린바이오 곤충 종충·품종자원 생산업","def":"생명공학 관련 기술을 적용해 「곤충산업의 육성 및 지원에 관한 법률」상 곤충, 즉 분류학상 곤충강에 속하는 동물과 거미류·지네류 등 같은 법이 정하는 무척추동물의 계통·품종을 선발·개량하고 종충·종란 등 증식 기반자원을 생산하는 산업활동을 말한다. 천적으로 이용하는 응애류처럼 곤충강에 속하지 않는 무척추동물도 같은 법의 곤충에 해당하면 포함한다.","exclude":"일반 애완·관상곤충 생산·판매는 제외한다.","examples":[{"name":"농업회사법인 ㈜한국유용곤충연구소","url":"https://www.yna.co.kr/view/AKR20190306125000054"},{"name":"충청북도농업기술원 곤충연구소 (공공)","url":"https://ares.chungbuk.go.kr/home/sub.php?menukey=1330"}]},{"code":"222","jung":"22","name":"그린바이오 산업용 곤충 사육·생산업","def":"생명공학 관련 기술이 적용된 식품·사료·방제·소재용 곤충(「곤충산업의 육성 및 지원에 관한 법률」상 곤충, 즉 분류학상 곤충강에 속하는 동물과 거미류·지네류 등 같은 법이 정하는 무척추동물)을 증식·사육하거나 확인된 그린바이오 제조규격에 따라 계약 사육하는 산업활동을 말한다.","exclude":"일반 곤충사육, 곤충 가공과 체험·교육 서비스는 제외한다.","examples":[{"name":"농업회사법인 푸디웜㈜","url":"https://file.kavia.org/file/2025_05_12/1747028396672_%ED%91%B8%EB%94%94%EC%9B%9C_%EA%B8%B0%EC%97%85%EB%A6%AC%ED%8F%AC%ED%8A%B8_240104_%EC%B5%9C%EC%A2%85.pdf"}]},{"code":"231","jung":"23","name":"그린바이오 미생물자원 생산업","def":"그린바이오 연구·생산에 이용할 종균·스타터·균주 자체를 생명공학 관련 기술로 발굴·제작·배양·증식하는 산업활동을 말한다.","exclude":"미생물 대사산물·효소·제형 미생물제제의 제조와 사람 의료·환경·에너지용 균주 생산은 제외한다.","examples":[{"name":"㈜쎌바이오텍","url":"https://www.cellbiotech.com/ko/lab2pro"},{"name":"수원발효","url":"https://segye.com/newsView/20260722526169"},{"name":"㈜메디오젠","url":"http://mediogen.co.kr"}]},{"code":"232","jung":"23","name":"그린바이오 세포·조직자원 생산업","def":"그린바이오 소재·제품의 연구·생산에 이용할 식물·동물·곤충의 세포·조직·세포주 자원 자체를 생명공학 관련 기술로 제작·배양·증식하는 산업활동을 말한다.","exclude":"가축의 번식과 품종개량에 사용하는 정액·난자·수정란·배아의 채취·처리·보존, 재배용 완성 묘, 사람 치료용 세포자원과 세포 기반 완제품 제조는 제외한다.","examples":[{"name":"㈜바이오에프디엔씨","url":"https://www.biofdnc.com/pr/news/view/38/47"}]},{"code":"311","jung":"31","name":"생물농약·생물방제제품 제조업","def":"병해충 방제 또는 농작물 생리기능 조절에 사용하는 농약·방제제품 중, 농업에 실제적이거나 잠재적인 가치가 있는 미생물, 분류학상 곤충강에 속하는 동물과 거미류·지네류 등 「곤충산업의 육성 및 지원에 관한 법률」이 곤충으로 정하는 무척추동물(사슴벌레·동애등에·뒤영벌·천적 응애 등) 중 농업·식품·사료·소재 분야에서 산업적으로 이용되는 것, 육상·해양 생물체와 그 세포·조직배양 산물 등 생물기원 천연물 또는 생명공학 관련 기술·생물공정을 유효성분이나 방제기능에 직접 이용하여 제조하는 산업활동을 말한다. 살아 있는 미생물 또는 자연계 생성 화합물을 유효성분으로 하는 천연식물보호제도 이러한 생물자원과 연결되고 생명공학 관련 기술·생물공정의 직접 기여가 함께 확인되면 포함한다.","exclude":"살아 있는 천적곤충을 원형 그대로 증식·사육하는 활동은 제외한다. 천연식물보호제라는 명칭만 있거나 생물유래 표시만 있는 제품 및 화학농약 제조도 제외한다.","examples":[{"name":"고려바이오㈜","url":"http://www.koreabio.net"},{"name":"㈜잰153바이오텍","url":"http://jan153biotech.kr"}]},{"code":"312","jung":"31","name":"그린바이오 비료 제조업","def":"미생물·식물·해조류 등 그린바이오 생물자원 또는 발효·효소처리·생물전환 등의 생물공정을 이용하여 식물에 양분을 공급하거나 토양의 물리적·화학적·생물학적 특성을 개선하는 비료를 제조하는 산업활동을 말한다. 유용 미생물, 미생물 배양물·대사산물, 발효 아미노산·유기산 및 생물전환 양분 소재를 이용한 비료를 포함한다.","exclude":"그린바이오 생물자원·생물공정의 직접 기여가 없는 일반 퇴비·유기질비료·화학비료, 비료에 해당하지 않는 생물촉진제와 제형하지 않은 미생물·종균·균주 자체의 생산은 제외한다.","examples":[{"name":"㈜에코호피아","url":"https://ecohopia.com/tosun"},{"name":"바실리㈜","url":"https://biocoin.co.kr"},{"name":"㈜대유","url":"https://www.dae-yu.co.kr/html/product_compost_detail.html?b_idx=NjMw"}]},{"code":"319","jung":"31","name":"기타 그린바이오 작물재배용 제품 제조업","def":"그린바이오 생물자원 또는 생명공학 관련 기술·생물공정을 직접 이용하여 작물 생육·활력·스트레스 저항성 또는 재배환경을 개선하면서도, 병해충 방제·농작물 생리기능 조절에 사용하는 농약·방제제품이나 식물 영양 공급·재배 보조·토양개량에 사용하는 비료에는 해당하지 않는 생물촉진제·생물제제를 제조하는 산업활동을 말한다.","exclude":"제품 기능이 병해충 방제·농작물 생리기능 조절을 목적으로 하는 농약·방제제품이거나 식물 영양 공급·재배 보조·토양개량을 목적으로 하는 비료에 해당하는 경우는 제외한다. 그린바이오 직접성이 없는 일반 농자재·단순 영양제·근거 없는 친환경 제품도 제외한다.","examples":[{"name":"㈜누보","url":"https://info.nousbo.com/ko/articles/amirus-721e5017"}]},{"code":"321","jung":"32","name":"그린바이오 사료 제조업","def":"동물의 영양·건강유지·성장에 필요한 단미사료·배합사료 중, 그린바이오 미생물·곤충·천연물 또는 생명공학 관련 발효·효소·생물전환 공정이 영양·기능·안전성에 실질적으로 기여하도록 제조하는 산업활동을 말한다.","exclude":"원료명만 생물유래이고 그린바이오 생물자원이나 생명공학 관련 공정의 직접 기여가 없는 일반 배합·단미사료와 사람용 식품의 제조는 제외한다.","examples":[{"name":"㈜엔텍바이오에스","url":"https://www.kbiois.or.kr/portal/bioCompany/bioCompanyDetailPage.do?upchecd=OM8414"},{"name":"농업회사법인㈜가야바이오","url":"https://www.newsis.com/view/NISX20230629_0002357408"},{"name":"㈜디들랩","url":"https://smartstore.naver.com/chewtaime"}]},{"code":"322","jung":"32","name":"그린바이오 사료첨가제 제조업","def":"사료의 품질저하를 방지하거나 효용을 높이기 위해 첨가하는 보조사료 중, 생명공학 관련 기술·생물공정으로 생산한 생균제·효소제·아미노산·발효대사산물 등을 제조하는 산업활동을 말한다.","exclude":"생명공학 관련 기술·생물공정의 직접 기여가 없는 화학합성 첨가제, 동물 질병의 예방·진단·치료를 목적으로 하는 동물용 의약품과 제형하지 않은 미생물·종균·균주 자체의 생산은 제외한다.","examples":[{"name":"㈜이지바이오","url":"https://www.kbiois.or.kr/portal/bioCompany/bioCompanyDetailPage.do?upchecd=LF4322"},{"name":"㈜제일바이오","url":"https://www.jeilbio.co.kr"}]},{"code":"331","jung":"33","name":"그린바이오 식품원료·첨가물 제조업","def":"식품의 제조에 투입되는 원재료·중간생산물과, 식품을 제조·가공·조리 또는 보존하는 과정에서 감미·착색·표백·산화방지 등의 기술적 효과를 내기 위해 소량 사용하는 첨가물 및 발효·가공보조용 효소로서, 그린바이오 미생물·곤충·천연물 등 생물자원 또는 생명공학 관련 기술·생물공정을 직접 이용하여 제조하는 산업활동을 말한다. 최종식품에 배합되어 그 구성 성분을 이루도록 분말·액상 등 별도 형태로 가공한 원료·중간소재와, 기술적 효과를 목적으로 소량 사용하는 첨가물·효소를 함께 포함한다. 두 갈래는 배합목적과 사용량으로 구분한다.","exclude":"소비자가 그대로 섭취하는 발효식품·건강기능성식품·대체식품 등 식용 완제품의 제조는 제외한다. 식품 제조가 아닌 그린바이오 연구·분석·생산공정에 투입하는 공정효소의 공급, 사료의 효용을 높이기 위한 사료첨가제의 제조, 첨가물로 제형하지 않은 미생물·종균·스타터 배양물 자체의 생산도 제외한다. 비식용·비사료용 산업소재의 제조와 생물학적 원형을 유지한 식물·미생물·곤충자원의 생산, 화학합성 첨가물 및 그린바이오 직접성이 없는 일반 원료·첨가물의 제조도 제외한다.","examples":[{"name":"㈜네오크레마","url":"https://cremar.co.kr/business/factory"},{"name":"㈜온디맨드바이오","url":"https://www.ondemandbio.com"},{"name":"㈜퓨처에프바이오텍","url":"http://www.ffb.co.kr"},{"name":"㈜에이피아이텍","url":"http://www.apitech.kr"},{"name":"에이치엘비제넥스㈜","url":"https://kr.hlbgenex.com/gwbbs/board.php?bo_table=bbs2&me_co=5040&wr_id=79"},{"name":"㈜비에스티","url":"https://ibst.kr"}]},{"code":"332","jung":"33","name":"그린바이오 미생물활용·발효식품 제조업","def":"농업에 실제적이거나 잠재적인 가치가 있는 특정 미생물·스타터와 문서화된 생명공학 관련 제어발효공정이 품질·기능에 실질적으로 기여하도록 식품·음료 완제품을 제조하는 산업활동을 말한다.","exclude":"특정 미생물·스타터 또는 문서화된 제어발효공정의 직접 기여가 확인되지 않는 자연발효·통상 발효·일반 가공식품과, 식품으로 제형하지 않은 미생물·종균·스타터 자체의 생산은 제외한다.","examples":[{"name":"서울장수㈜","url":"https://www.thinkfood.co.kr/news/articleView.html?idxno=90738"}]},{"code":"333","jung":"33","name":"그린바이오 건강기능성식품 제조업","def":"인체에 유용한 기능성을 가진 원료·성분으로 제조한 식품 중, 농업에 실제적이거나 잠재적인 가치가 있는 미생물, 분류학상 곤충강에 속하는 동물과 거미류·지네류 등 「곤충산업의 육성 및 지원에 관한 법률」이 곤충으로 정하는 무척추동물(사슴벌레·동애등에·뒤영벌·천적 응애 등) 중 농업·식품·사료·소재 분야에서 산업적으로 이용되는 것 또는 육상·해양 생물체와 그 세포·조직배양 산물 등 생물기원 천연물을 원료·성분으로 이용하고, 생명공학 관련 기술·생물공정의 직접 기여가 함께 입증된 건강기능식품·특수영양·특수의료용도 식용 완제품을 제조하는 산업활동을 말한다.","exclude":"건강기능식품이라는 이유만으로 자동 포함하지 않으며, 일반 영양식품과 기능성 표시만 있는 식품 및 완제품이 아니라 다른 식품 제조에 투입되는 기능성 원료·중간소재의 제조는 제외한다.","examples":[{"name":"대상웰라이프㈜","url":"https://www.daesangwellife.com/kr/rnd/rnd-center"}]},{"code":"334","jung":"33","name":"그린바이오 대체식품 제조업","def":"그린바이오 생물자원에 세포배양·정밀발효·생물전환 등 생명공학 관련 기술을 직접 적용하여 축산물 등을 대체하는 식품 완제품을 제조하는 산업활동을 말한다.","exclude":"세포배양·정밀발효·생물전환의 직접 기여가 없는 단순 식물성 원료 배합제품, 완제품을 생산하지 않고 외부 고객에게 연구·설계·개발 결과만 제공하는 활동과 식품으로 제조하지 않은 세포주 자체의 생산은 제외한다.","examples":[{"name":"㈜심플플래닛","url":"https://simpleplanet.io/technology"},{"name":"㈜다나그린","url":"https://www.seoul.co.kr/news/economy/2025/09/19/20250919500016"},{"name":"㈜팡세","url":"https://www.pensees.co.kr"}]},{"code":"341","jung":"34","name":"동물용 백신·생물학적 제제 제조업","def":"「약사법」이 정한 의약품, 즉 기구·기계 또는 장치가 아닌 물품으로서 동물용으로만 사용하는 것 중 생물체·세포·재조합기술 등 생명공학 관련 기술을 이용하여 동물 질병의 예방·치료 등을 위한 백신·항체·단백질·세포 기반 생물학적 제제를 제조하는 산업활동을 말한다.","exclude":"생명공학 관련 기술을 이용하지 않은 합성 동물용 의약품의 제조는 제외한다. 외부 고객이 제조한 동물용 의약품의 효능·독성·위해성을 위탁받아 시험·평가하는 활동은 제외한다.","examples":[{"name":"㈜중앙백신연구소","url":"https://www.cavac.co.kr/kor/main/"},{"name":"㈜바이오앱","url":"http://www.bioapp.co.kr"},{"name":"㈜고려비엔피","url":"https://www.kbnp.co.kr"}]},{"code":"349","jung":"34","name":"기타 그린바이오 동물용 의약품 제조업","def":"「약사법」이 정한 의약품, 즉 기구·기계 또는 장치가 아닌 물품으로서 동물용으로만 사용하는 것 중 생명공학 관련 기술을 이용하여 동물에 직접 투여해 질병을 진단하는 생물학적 제제 또는 동물용 백신·항체·단백질·세포 기반 생물학적 제제에 해당하지 않는 그 밖의 바이오의약품을 제조하는 산업활동을 말한다. 동물용체외진단의료기기와 기구·기계·장치는 포함하지 않는다.","exclude":"생명공학 관련 기술을 이용하지 않은 합성 동물용 의약품의 제조는 제외한다. 동물용 의료기기·기구·기계·장치의 제조, 수의진료와 동물의 영양·성장·사료 효용을 목적으로 하는 사료·사료첨가제 제조는 제외한다.","examples":[{"name":"녹십자수의약품㈜","url":"https://www.gcvp.co.kr/s-pullorum-antigen"},{"name":"㈜메디안디노스틱스","url":"https://www.mediandiagnostics.com"}]},{"code":"391","jung":"39","name":"그린바이오 천연물·곤충·미생물 유래 소재 제조업","def":"농업·식품·사료·동물용 의약품·비식용 소재 분야에 이용되는 육상·해양 생물체와 그 세포·조직배양 산물 등 생물기원 천연물, 분류학상 곤충강에 속하는 동물과 거미류·지네류 등 「곤충산업의 육성 및 지원에 관한 법률」이 곤충으로 정하는 무척추동물(사슴벌레·동애등에·뒤영벌·천적 응애 등) 중 농업·식품·사료·소재 분야에서 산업적으로 이용되는 것 또는 농업에 실제적이거나 잠재적인 가치가 있는 미생물에 생명공학 관련 기술·생물공정을 직접 적용하여 비식용·비사료용 추출물·오일·단백질·대사산물·효소 등 중간소재를 제조하는 산업활동을 말한다.","exclude":"생명공학 관련 기술·생물공정의 직접 기여가 없는 단순 추출·분쇄, 식품 제조용 원료·중간소재, 작물재배용 제품과 생물학적 원형을 유지한 미생물·곤충·식물자원의 생산 및 범용 화이트바이오 소재 제조는 제외한다.","examples":[{"name":"㈜청진바이오텍","url":"https://biovenom.com/"},{"name":"㈜케일농업회사법인","url":"https://keilcorp.com/material"}]},{"code":"392","jung":"39","name":"그린바이오 향장·생활제품 제조업","def":"인체를 청결·미화하여 매력을 더하고 용모를 밝게 변화시키거나 피부·모발의 건강을 유지·증진하기 위해 바르거나 문지르거나 뿌리는 등의 방법으로 사용되고 인체에 대한 작용이 경미한 화장품과 비의약 생활제품 중, 그린바이오 생물자원과 생명공학 관련 기술·생물공정이 제품기능이나 제조공정에 직접 기여하도록 제조하는 산업활동을 말한다.","exclude":"사람용 의약품과 동물용 의약품, 완제품이 아닌 천연물·곤충·미생물 유래 중간소재 및 천연·생물유래 표시만 있고 그린바이오 직접성이 없는 일반 화장품·생활제품의 제조는 제외한다.","examples":[{"name":"㈜아이엔지알","url":"https://vegetology.co.kr/board/%EB%AF%B8%EB%94%94%EC%96%B4/3001/"},{"name":"㈜코렉스","url":"https://corexbiotech.com"}]},{"code":"399","jung":"39","name":"기타 그린바이오 산업용 제품 제조업","def":"증식용·재배용 씨앗·버섯 종균·묘목·포자·영양체 등의 종자, 농업에 실제적이거나 잠재적인 가치가 있는 미생물, 농업·식품·사료·소재 분야에서 산업적으로 이용되는 곤충, 육상·해양 생물체와 그 세포·조직배양 산물 등 생물기원 천연물, 식품 제조용 가공 원재료·중간생산물 또는 동물용으로만 사용하는 의약품의 농업적 생산·가공·활용에 직접 사용되거나 그 과정에서 산출되는 비식용·비사료용 산업소재·제품으로서, 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하고 농업 전후방 부가가치가 확인되는 것을 제조하는 산업활동을 말한다. 다만 작물재배용 제품, 동물용 의약품, 천연물·곤충·미생물 유래 중간소재 및 향장·생활제품은 포함하지 않는다.","exclude":"바이오연료·범용 바이오화학 등 화이트바이오 제품, 단순 친환경 제품과 종자·농업에 실제적이거나 잠재적인 가치가 있는 미생물·산업적으로 이용되는 곤충·생물기원 천연물·식품 제조용 가공 원재료·중간생산물·동물 전용 의약품 사이의 직접 연계 또는 생명공학 관련 기술·생물공정의 직접 기여를 증명할 수 없는 잔여품목은 제외한다.","examples":[{"name":"㈜그린컨티뉴","url":"https://greencontinue.com/Product"}]},{"code":"411","jung":"41","name":"그린바이오 생물자원 도매업","def":"생명공학 관련 육종·유전체·선발·편집·배양·증식 기술을 적용하여 개발·생산했거나 그린바이오 제조공정의 성분·품질규격에 따라 계약 생산한 종자·종묘·미생물·종균·균주·세포·곤충·천연물 원료용 식물·기능성 식품소재용 식물 등 타사의 생물자원을 자기 계정으로 구입하여, 본질적으로 변형하지 않고 사업자·기관에 재판매하며 해당 품목·매출을 분리하는 산업활동을 말한다.","exclude":"생명공학 관련 기술 또는 확인된 그린바이오 제조규격과 관계없는 일반 종자·원물의 도매·중개, 자기가 생산한 생물자원의 판매와 배지·시약·기계·장비 등 그린바이오 생산수단의 도매는 제외한다. 상품에 대한 소유권을 취득하지 않고 수수료·계약에 따라 매매를 알선하는 상품 중개도 제외한다.","examples":[{"name":"코람바이오텍㈜","url":"https://www.korambiotech.com"}]},{"code":"412","jung":"41","name":"그린바이오 소재·제품 도매업","def":"그린바이오 미생물·곤충·천연물 등 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하도록 타사가 제조한 작물재배용 제품, 사료·사료첨가제, 식품원료·식품, 동물용 바이오의약품, 비식용 소재, 향장·생활제품 및 산업용 소재·제품을 자기 계정으로 구입하여, 본질적으로 변형하지 않고 사업자·기관에 재판매하며 해당 품목·매출을 분리하는 산업활동을 말한다.","exclude":"자기가 제조한 소재·제품의 판매와, 그린바이오 생물자원 또는 생명공학 관련 기술·생물공정의 직접 기여가 확인되지 않는 일반 식품·화장품·의약품 등의 종합도매는 제외한다.","examples":[{"name":"다니스코뉴트리션앤드바이오싸이언스코리아(유)","url":"https://www.kbiois.or.kr/portal/bioCompany/bioCompanyDetailPage.do?upchecd=LB1638"}]},{"code":"421","jung":"42","name":"그린바이오 생물자원 소매업","def":"생명공학 관련 육종·유전체·선발·편집·배양·증식 기술을 적용하여 개발·생산했거나 그린바이오 제조공정의 성분·품질규격에 따라 계약 생산한 종자·종묘·미생물·종균·균주·세포·곤충·천연물 원료용 식물·기능성 식품소재용 식물 등 타사의 생물자원을 본질적으로 변형하지 않고 일반소비자·최종 수요자에게 전문적으로 판매하며 해당 품목·매출을 분리하는 산업활동을 말한다.","exclude":"생명공학 관련 기술 또는 확인된 그린바이오 제조규격과 관계없는 일반 원예자원·애완곤충의 소매와 자기가 생산한 생물자원의 판매는 제외한다.","examples":[{"name":"㈜씨앗팜","url":"https://seed-farm.com"}]},{"code":"422","jung":"42","name":"그린바이오 소재·제품 소매업","def":"그린바이오 미생물·곤충·천연물 등 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하도록 타사가 제조한 작물재배용 제품, 사료·사료첨가제, 식품·동물용 바이오의약품·향장품·생활제품 등을 본질적으로 변형하지 않고 전문점·전자상거래 등으로 일반소비자·최종 수요자에게 판매하며 해당 품목·매출을 분리하는 산업활동을 말한다.","exclude":"자기가 제조한 소재·제품의 판매와, 그린바이오 생물자원 또는 생명공학 관련 기술·생물공정의 직접 기여가 확인되지 않는 일반 식품·화장품·의약품 등의 종합소매는 제외한다.","examples":[{"name":"광주약국","url":"https://gwangju-pharm.com/"},{"name":"미농비료","url":"https://www.minong.kr/goods/goods_list.php?cateCd=004005"}]},{"code":"511","jung":"51","name":"그린바이오 생물자원 연구개발 서비스업","def":"수수료 또는 계약에 따라 외부 고객에게 그린바이오 품종·종자·농업 미생물·균주·세포·곤충 등 생물자원의 탐색·육종·설계·개발 결과를 제공하고 해당 계약·매출을 분리하는 산업활동을 말한다.","exclude":"연구개발 결과의 제공이 아니라 자기 소유의 품종·종자·미생물·균주·세포·곤충 등을 직접 개발·생산하는 활동, 사람 의료·일반 생명과학 연구개발과 정해진 방법으로 시험·분석 결과만 제공하는 용역은 제외한다.","examples":[{"name":"㈜가든플란트","url":"https://www.ntis.go.kr/outcomes/popup/srchTotlRschRpt.do?cmd=get_contents&rstId=REP-2016-0119865055"},{"name":"㈜씨더스 농업회사법인","url":"http://www.seeders.co.kr"}]},{"code":"512","jung":"51","name":"그린바이오 소재·제품·공정 연구개발 서비스업","def":"수수료 또는 계약에 따라 외부 고객에게 그린바이오 미생물·곤충·천연물 등 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하는 작물재배용 제품, 사료·사료첨가제, 식품원료·식품, 동물용 바이오의약품, 비식용 소재, 향장·생활제품과 그 배양·발효·추출·제조공정의 연구·설계·개발 결과를 제공하는 산업활동을 말한다.","exclude":"연구개발 결과의 제공을 넘어 물리적 소재·제품을 실제로 위탁생산하는 활동, 그린바이오 직접성이 없는 일반 바이오·의약 공정 연구개발과 배양·발효·분리·정제·제형 등 공정장비의 제조·수입·공급은 제외한다.","examples":[{"name":"㈜한국천연물과학기술연구소","url":"https://ksabc.kr/newsletter/20241216/ksabc_attach.pdf?v=1"},{"name":"재단법인 발효미생물산업진흥원 (공공)","url":"https://www.mifi.re.kr"}]},{"code":"520","jung":"52","name":"그린바이오 정보·데이터 서비스업","def":"그린바이오 생물자원·품종·유전체·표현형·성분·공정에 특화된 데이터베이스·정보, 데이터 처리·해석 도구, 소프트웨어 또는 디지털 플랫폼을 구축·운영하여 외부 이용자에게 지속적으로 제공하는 산업활동을 말한다.","exclude":"개별 시료를 분석하여 일회성 보고서를 제공하는 시험·분석 용역과 그린바이오에 특화되지 않은 범용 ERP·IT·스마트농업 소프트웨어·일반 바이오 플랫폼은 제외한다.","examples":[{"name":"㈜인실리코젠","url":"https://insilicogen.com/service/detail/930/include/"},{"name":"㈜쓰리빅스","url":"https://3bigs.com"},{"name":"큐티엘맥스 글로벌","url":"https://www.qtlmax.com"}]},{"code":"531","jung":"53","name":"그린바이오 기술·생산 교육 서비스업","def":"수수료 또는 계약에 따라 외부 이용자에게 그린바이오 분야의 육종·배양·발효·분석·제조·장비운영 실무교육을 조직적으로 제공하고 관련 교육매출을 분리하는 산업활동을 말한다.","exclude":"그린바이오에 특화되지 않은 일반 바이오·정규교육, 자사 직원훈련과 제품판매에 부수되는 사용설명은 제외한다.","examples":[{"name":"㈜디엔에이케어","url":"https://www.mafra.go.kr/bbs/home/792/597570/download.do"}]},{"code":"532","jung":"53","name":"그린바이오 품질·규제·사업화 교육 서비스업","def":"수수료 또는 계약에 따라 외부 이용자에게 그린바이오 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하는 제품의 품질·안전·인허가·인증·지식재산·창업·수출 전문교육을 제공하고 관련 교육매출을 분리하는 산업활동을 말한다.","exclude":"교육이 아니라 개별 기업의 인허가·품질체계·기술이전·사업화를 직접 자문·대행하는 활동과 그린바이오에 특화되지 않은 일반 품질·경영·창업교육은 제외한다.","examples":[{"name":"(사)한국동물약품협회","url":"https://www.mafra.go.kr/bbs/home/792/597232/download.do"}]},{"code":"541","jung":"54","name":"그린바이오 시험·분석·평가 서비스업","def":"수수료 또는 계약에 따라 그린바이오 생물자원·소재·제품의 효능·독성·안전성·환경·생물 위해성, 품질·성분·함량·물성·순도·오염 또는 유전체·전사체·단백체·대사체·세포·표현형을 시험·분석·평가하고 결과를 제공하는 산업활동을 말한다.","exclude":"사람 의료 목적 또는 그린바이오 직접성이 없는 일반 시험·분석, 새로운 시험법·품종·제품·공정을 개발하는 연구개발, 내부 품질관리, 데이터베이스·소프트웨어·플랫폼의 지속 제공과 동물 진료는 제외한다.","examples":[{"name":"코아스템켐온㈜","url":"https://www.corestemchemon.com/kor/business/cro__service.html"},{"name":"지노타입㈜","url":"http://www.xenotype.co.kr"},{"name":"㈜미소진","url":"http://www.misogene.com"},{"name":"㈜마이크로자임","url":"http://www.microzyme.co.kr"}]},{"code":"542","jung":"54","name":"그린바이오 검사·검증·인증 서비스업","def":"수수료 또는 계약에 따라 그린바이오 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하는 제품·공정·시설을 정해진 기준으로 검사·검증·심사하고 인증서·성적서 등 판정 결과를 제공하는 산업활동을 말한다.","exclude":"그린바이오 직접성이 없는 일반 ISO·유기인증, 인증 취득을 준비하기 위한 자문·대행과 시설·장비의 교정·유지관리 서비스는 제외한다.","examples":[{"name":"강원대학교 산학협력단 친환경농산물안전성센터","url":"https://cll.kangwon.ac.kr/cll/community/notice.do?articleNo=551275&mode=view"},{"name":"㈜케어원","url":"https://care1.co.kr"}]},{"code":"590","jung":"59","name":"기타 그린바이오 관련 서비스업","def":"수수료 또는 계약에 따라 그린바이오 생물자원이나 생명공학 관련 기술·생물공정이 제품기능 또는 제조공정에 직접 기여하는 재화의 사업화와 생산을 지원하는 서비스로서 달리 분류되지 않는 것을 외부 고객에게 제공하고 관련 계약·매출을 분리하는 산업활동을 말한다. 인허가·등록·규제 대응과 품질·안전·인증체계 구축을 위한 전문 자문·대행, 특정 기술·제품의 기술이전·지식재산·창업·투자유치·수출·시장진입 지원, 연구·생산·제조·시험분석에 사용하는 전용·주사용·특화 시설·장비의 임대·공동활용·설치 후 유지관리·수리·검증·교정, 생물학적 품질·안전·저온·추적성이 요구되는 전문 물류·보관과 시설·공정 운영지원을 포함한다.","exclude":"정해진 방법으로 제품·공정·시설을 직접 시험·검사·검증·심사하고 성적서·인증서를 발급하는 활동, 외부 이용자에게 품질·규제·사업화 지식을 조직적으로 교육하는 활동, 시설·장비의 판매와 그 판매에 부수된 설치는 제외한다. 생물자원·소재·제품을 구입해 재판매하는 상품 매매와 위탁계약에 따라 물리적 재화를 실제로 생산하는 CMO·CDMO도 제외한다. 그린바이오 계약·전담역량·매출을 분리하지 못하는 일반 인허가·ISO·법률·회계·창업·광고·금융 지원과 일반 장비수리·임대·냉장물류·공장운영도 제외한다.","examples":[{"name":"㈜바이오푸드네트워크","url":"http://www.biofood.co.kr"},{"name":"㈜유에스알","url":"https://www.fdaora.com"},{"name":"소풍벤처스","url":"https://earth.sopoong.net"},{"name":"그린바이오 벤처캠퍼스 (공공)","url":"https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000122006"},{"name":"농업미생물은행 (공공)","url":"https://genebank.rda.go.kr/distrib/distributeInfo.do"}]}]};
+
+// build_index.py가 정의서에서 만든 분류표 엑셀을 base64로 채워 넣는다.
+const XLSX_B64 = "UEsDBBQAAAAIAAAAIVy2+9qcCQEAAK4CAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbK1SO0/DMBDe+RWW1yp2yoAQatqhwAgM5QccziWx4pd8bkn+PU4KHVB5DJ1O9vfU6VabwRp2wEjau4ovRckZOuVr7dqKv+4ei1vOKIGrwXiHFR+R+GZ9tdqNAYllsaOKdymFOylJdWiBhA/oMtL4aCHlZ2xlANVDi/K6LG+k8i6hS0WaPHg2u8cG9iaxhyH/H5tENMTZ9sicwioOIRitIGVcHlz9Lab4jBBZOXOo04EWmcDl+YgJ+jnhS/iclxN1jewFYnoCm2lyMPLdx/7N+1787nKmp28arbD2am+zRFCICDV1iMkaMU9hQbvFPwrMbJLzWF64ycn/ryKURoN06T3MpqdoOZ/b+gNQSwMEFAAAAAgAAAAhXH5vwIWxAAAAKgEAAAsAAABfcmVscy8ucmVsc43POw7CMAwG4J1TRN5pWgaEUEMXhNQVlQOE1H2oSRwlAdrbkxEqBkbL/j/bZTUbzZ7ow0hWQJHlwNAqakfbC7g1l+0BWIjStlKTRQELBqhOm/KKWsaUCcPoAkuIDQKGGN2R86AGNDJk5NCmTkfeyJhK33Mn1SR75Ls833P/acAKZXUrwNdtAaxZHP6DU9eNCs+kHgZt/LFjNZFk6XuMAmbNX+SnO9GUJRR4OoZ/vXh6A1BLAwQUAAAACAAAACFctFUVsesAAAA3AQAADwAAAHhsL3dvcmtib29rLnhtbI2QvU7DQAzHX+XknV7aAaEoSRdUqTs8wJE4zak5X3Q+vlYEEmJGIgsbMGdAfLwSub4DB6U7k23Z/vn/dza/MK04Q8faUg7TSQICqbSVplUOx0eLvQMQ7BVVqrWEOVwiw7zIzq1bn1i7FnGdOIfG+y6VkssGjeKJ7ZBip7bOKB9Lt5LcOVQVN4jetHKWJPvSKE2wJaTuPwxb17rEQ1ueGiS/hThslY/iudEdQ5H9XuC/KEiZKPrr/WN8GcbhPjy+hv4pXA3h4UZs7j7DbT++XY/PfTT5M7+s4g9AuFTHxC2rKcgikzuk3LkuvgFQSwMEFAAAAAgAAAAhXB+qsIPGAAAAqwEAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsc62QzaoCMQyF9/cpSvZOZlyIiNWNCG5FH6B0Mj8405Ym/szbWxQGFS/cxV2Fk5DvHM5yfes7daHIrXcaiiwHRc76snW1huNhO5mDYjGuNJ13pGEghvXqZ7mnzkj64aYNrBLEsYZGJCwQ2TbUG858IJculY+9kSRjjcHYk6kJp3k+w/jKgA+o2pUa4q4sQB2GQH+B+6pqLW28Pffk5IsHXn08cUMkCWpiTaJhXDE+RpElKuAvaab/mYZl6FKdY5SnHv3xrePVHVBLAwQUAAAACAAAACFcH04407ECAAB9FAAADQAAAHhsL3N0eWxlcy54bWzVmN1u0zAUx1/F8j1L+kmHmk4dLBI33KxI3LqJk1py7MhxR7srXgEJLpG44wF4K8ZDcOwka7puazr62UqNj+Pz98/HPk6d/sUs4eiGqoxJ4eHGmYsRFYEMmYg9/HHkv+phlGkiQsKloB6e0wxfDPqZnnN6PaFUIxAQmYcnWqdvHCcLJjQh2ZlMqYA7kVQJ0WCq2MlSRUmYGaeEO03X7ToJYQIP+pEUOkOBnArt4U5RAZ3cohvCgcrFzqAvSEJz++7X178/vqA/v3/efftubjl5+/x37GzPM5BcKqTisYf94vNiwc6KYMN+NxEsxc5XtDp+t9Xt1dOylww0GefLYYeKQT8lWlMlfDBQUR7NU5h7ASsgl7Ht1rSOFZk3mp36DpnkLDQU8dvqyNzLzut3djbGxQ0mQjqjoYe7bateUfzPvq56vutf7acvmPqW3960L3uBuRtLFULWlrPXxmXVoM9ppMFdsXhirlqmpg+ptUygEDISS0G46aD0qHoim9oe1hObmkuL7Hw4dIddy2aaFn3U9LBtLU5NB2hZctf0yBsf1RgTGrJp8tBlka17GOXjCM+Pc63Pdka6tpvnxloUIBkCyvm1UfwU3WdEA1RnERLTxE/0e0gqeLKZfa8sQhoVxVwmN4x+VS3Xrsr2XqSLZlFRIGnK577MEQsLfBbWpXVb2EPOYpHQckykNM1TW7PAbPQBmFRZ+Fn0NF5rr3gTqdgtCBlAs8Lw5sDtUwNuLoCbVeDWzoELwFVk9FmRdERn1nsdf2PB36ryNw7Hf7zIT6yRjQJe2THaJxLwwyFvOeDu6QV8z8inHfCH9PD/Yzu7YfN418rhkHe5Gx5xwA+HvMvkPI2A7xn5tANeezd0ihNP5Vi1dKi6r0XmTZOHP5hXfLzCP54yrpl45EAFms7izeHgH1BLAwQUAAAACAAAACFctU+5Y+wbAABXrAAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbO1dX28bR5L/KgM9JQAvMmdISRRsLyzR1h2wByxud++eFZu2hciSITHx7uEeaGtsyJZ8lhLRomySoc/6m2OQMUXLNFbBAf4q+8YZfoerqu6eGYpNcthsK/FdgDgUpznd1T1dv66q/nXNxd/95c688U1maXluceHSSPyLCyNGZuH64o25hVuXRv78p2v/MDFiLGdnF27Mzi8uZC6N/DWzPPK7yxfvLS59tXw7k8kacP/C8qWR29ns3cnR0eXrtzN3Zpe/WLybWYCSm4tLd2az8HXp1ujy3aXM7A266c78qHnhwtjondm5hZHLF+nav85l7i2H/jawiS8XF7/CL/9049IISLZ8e/HezNLcjd/PLWSW8crli3dnFzLGX/94d34ue2kkMWJkF+/+PnMzO52Zn780ciU5Ysxez859k/nDLAr/5WI2u3gHy6lTWbh0c2nx3zMLI6OXL476TYf/FiJdo578Ycm4kbk5+/V89l8W7/1jZu7WbWg1PvZFEiu4vji/TP837szhWI4Yd2b/Qp/35m5kb8Nf8Of1r5dBhH/jF/ht7AaT32D6N5iJnjdY/AYragsJfkPCv8G60POGJL8hGbWFMX7DWNCC2fOGcX7DuH/DxITshlE2uvQs0rPZ2csXlxbvGUs0vPgQzDFxl/9YYHZcx19cgZ8s0w/h6tzCPEyeP2aXoHQOKqQJPLl8d/Y6TAaYocuZpW8yI5eb7xruvuM6W16p7hV2vQeOt/3QaD15760W3BPb3St85uVXP784mgXRsJ7R6/APRPLlMv3mTWreHKR5dz3HWjGSxod3hre7yb/Gx+n7o3X+3RozDOM/4J9X3gQJQSYsb779senk3KcOSN+yHa9WMDwQvdQwvIotbqjkvRJcf7nhVhteKReqlBV5drFH9xJs2IP50znsCeq3pdZv7+ct97szAlC1U0NV6/7w0Hv/o6TaaYVqg8fSVdr0UNV2lfaqSrXB8+0m7bWhqu0q7cxw0tJs7DEVk2wqjvVAgCRDgIEgIC6bfLyigZT5DJYYzYbjlTe8ctVoHr9tNh6D3somJG9qoFGLy4RO85oSeoT2KkXvlSMX+ipvKjmY0DKpr/GqxoaR2tt2mm+rH955KyWE8BdHRoROzPCWxwearyslmP/wQFv5HaNZz7mVQxqz1QqIAs3dh8bdjYL7ZMvw/ushSPHhnftTA++qnn541zze9U6OQM5aEUSmS95aqfXtqhAUJX+Jkruv1+HOZzvwG7oIOJ3/GX5IWN7WW/ike3GWoQ5tbyD6MzGabxz3Adzw+tR9VTS8B1Uu3TPbfVXCZa61s+VuFA3XcbyDHDQIn883sT8HqyhaERr98K714hDUFL7v2CA9VOHlX4nS1oPd1pMGfCtWsNXyhuHWXsFaBHWt1b1aHftMYsHDcL97Q6vPD4ee/YY/IXfv1PAO7nuVTT4ErTwbPFqJWztFGAOvZBvuwUYrX3TXdr/ogRBj/RFijJ75QCoiBQhWz0DzXxEfWEsDqYccHlhFA812RXRgLU0MJrIpAwdWU0oHNsAy49klr7znvrd74wJrNH7hU8KF5vGpAT032jGB6x7qz3rOW7nvFRkQkLLCj+xG6xkDEqyvkneP64Zb2CAp7TcwYqD8gDkEBvlVVHCoChS/tV2AK41XcIsYWK63YIwODj/soXg7OdYFut1wT3KEd7Y+fBhn+DAR744P45rwYfzc8GFcFz6Mnxs+jKvggyXDh3EN+MA1RqxT/fFh/BPEB7Ib2rCBDAVSSaG6tPijEVCEFZ/02t1HdIBRqRRBiDd1uI1ubxXyXGl9uGAQAg8fxMC29ksgIfwYWiiitQCiOY7R2ik0az+jAM/rvAaABnBBY0YrX3fX3gsrhokLVcJ4wegY7TBkeC+2UBzogntQbtbWB8ecZm1FK7ZMMGyJx3uAy4QmcJk4N3CZUAAX2UKentAJLvgwD3a7gMuEAriYF2TgMjE8uESTeWbiU0UUqSei5IK0VnJQaAhfRowb+gc4buWHoJyirtUC++5tV2OGe9wAZMD+MuPGPc4BPGHpQc7w8k+axxVqdpuNARMZ6och8x1GaGp7g2CkXG2tb0CDCAVHjgAl6K77A4wWSnJSJNwonbpOIZATjRcGmH1BxPe2OvyrNo8qmv8U62nMoVSKhpzMbI6prREkRWh9GGBxYH2WrNA4L6C7rfxhf2hOMWhO9kDmlELgSIZzUykNgaP2sWIzVA7PKYXYkSk1/lIaYkfwTKPJfTWlED4y5eGjlI7wEcdH+HSrhZ6iz6Q0BY1g4kNzfuAENd2zK6BXoKn/CYi26YO5zcGcAR4fZTKIQGwobTpFVEcfHgPMoh9Q7B//o9b4J2AI4Cbqb459HtfRCMAihn8E9WLZqBYY+lULrBKA+IP7DAqwDEM4YgEgzR7GjsJFsJ+Thr8Z1JCSaiuvaChLKrq28tYGmqpybeU1DWVORddW3tpAJpUpj+fwqoZz2B6tk4f5cgNME5qnTCN6qi1veEATC3TzxZFYQEEf3Sd7uPTC0oYmB6hWa2XDW3kcqC7q4vePQ04RSIQKv18lo6iHyRbScqbH4BHtgB/UIGdFOgRsmfVNtpDn1LbkN98Vm7UjIVPz2AYjgzynLcctncZYzIUGM7DQhAazOVILokKrBZAKr6HAtGwLIyqC3fOw4ds99i58ruJ6T4Yn1Ijil/fYgk8Vu84RlOCWpVv9Gzfm0MY7cmJhOcBUWNuFEUDhe4+T2AdlHWV+D7eQ4WHAwDSdnD/oBTBCvDzgbH/EikdArLguxIqfK2LFFRBL6v/xmoZzAMlniYRYcQXEkkLtNV7VcF4gCU7rKfpcfGXu348Z3rg+xzBAmbrx99w6H1Fqn7QDjBLAN9d5ZoDCobEAOAFVgBIYbi3v7lX+nnvqrdznPQI93H9ssP1bjNP4BU2H7UM9eipiS+Q/UpAawO2nBtwAWnmQc+1d2lIGpW86O6TrtTzzX/Pi1ir4QTveyRb3QUFMUNXWo7f+QGKv2vAXMRS9Pj7eaNaVcwxZyD7B4QDvTUSrbCMqgqG37Dua+HADpCxtevkK9MWrFdzvT2XjwCFM0idwhtu6XxBTHe5l1hy5o/XIHg/6H/12wuKmLkgyzxWSTG2QZJ4rJJkqkCQ3okwNRhTTebCeBDgJX7wnHpkfLVBVNFj8iaICLOYE6z/GFNgiHoj62acJXJ8T0LRFPkI+W3dTj9l2ZMMFVhs34wy/HnV/y+IMr15QYemCCutcocJSgArZNlOa1zQUVPjBVzZLRbSOfOlIAGIpAIglt2ms4QHE704kO8ZSwI0+JB9UU74C01LffFeBsie7rZUc8U/gu/f6lMKktTqPUXTBIQobO8Xm2zoLYZc3BRVGS0QjEUHDEro0LHGuGpbQpmGJX4GGJVQ0TL5EJzQs0YN2YIa3OqSadfrMvRRvje0nsTVO7CuxIERYfLE/IVQSuxJRMz+CRnIqaTzRy2VXIZPK5vZUXAebtC3U000dVbik0iUiHddBJoXHRkCC0RwK1PXvw9W4CrXUku8NxFW4pQxC3EdPaW+OfyNTNIL4M3EVUql7vAluHlrhrCERbUMhaAhJQ/arLAJpYOuV1U7+Bhe5XdjdzRiVgJ2MN1CoDG3uUl3sppYraF7jpQbYsjnvfQHjYF55lSoVmBrTZS4rW+9gXPMbuf/dzdL+DIflSd2trbuVVYImdM2/ewO1wrdvd73CfShje9+V+9x1R9k+x+HioyX2wwN/hMedcUM0fwp1eXZRuFFnYgIiqFhbiVHfVgD+8AE/3xRra63us93aYJJhHFZLyxjb/MQRBTREyBS79WHajRw5xdQNKIBesYI7zRQbBjnx2bOpwgPb+CA5G0ZENmi/KRo1BorqXt7umDe+pLjH7oDbQksYBtF3tlr5IxFKDsvGhlK0SF1my4x7XG8VGhjrfYY78HX3+ypOkbC9glMP26k5yD3AIFDkESqI7mPxdpWCwfnD5t8C72ywGEwENnJcgY4sX2I08JEjrTAKbOQuC4wGOrLS+qJATra6bGZpYCcjleH1ep81RYWQHOL6CBsNIeiV44cteln9YgHiNA/GUMHQ5n6IYWK3dqiqgKwXAps2CGHbSAgwzzcJfWy+/RKKgDyqQCFWhYq+jwsStIsYsUN/trMBn7wHrOCb355dEesADSZZlFFBi3b42la5kBPBNrjRul1HchJD5RgfFQPQDle4hw22812sIG48cNgyFh4i1mluWJN0fHCKIYkjw8p4BFhRYDHLYUUDjTkSrCiQmLvAigYWsxKsKHCarXhKCisqpOaG01rJder04D2ZiavQm6OAyUC2iswQ8U1hClSjPlf2WMjnSQMsPfgDegZG449kTAqzA/vOmWVteHFUBwMODAlkELab36DvQxve3MAS1ITCfTTrGOb5fDck6CFZjkEf27rqrJwQAi7jF38zKLSXxIe6/tg7sFm8nGMPSjIAFvbCnIn+DLq4ArlZjjka2M2RMEeB2ywN9qTjGsjNvpNBn17tED2xSrEP6Chwna0u29wayM5M9j7ookJ1DnZ+mSIRzxR9T1i9iVACtkB5j+2W2t6LLVpZ1w5xKff3kkABjoSA6BN3DR5KuNG9EKzdRDpjHAlAqweCE5L4LFz7jfDKwxRm5oCgxjKWtAYNjsCBjad0aXDqnDQ4pU2DU7+UBqdUNFjujaR0aXA02Wd4gwNuBrMWkDpH5DRasIlCiqvnQS7kEIBCvTiiGf7oWwxXNRww121krjABxQJJq2hYtSMbGjxmw8kf9BfuGuEiyj0eWk/b7Hym72GHgLlAtgYtNS9EOERkKpBfpWpq6iC/RlBTU4H2akk3iUw9tFeceUQDPHvmRa6jpgL91ZJvvJo66K/tHSBVIBuzl66aSvRX1hIuu/65ntZq1Ss/FOeKggNCoHhNx2aqxCLAMSGprxpIz8qB6lGwE6xqP8qAGlznigN3siwGGF5tOhugevB7wAak2bY2i67zBjHWwWNDhBgiAsEpJRgdeHEItRCmPGiDjUfrSM5tZ7j644duu1jMmZwcWcBvYmggTioOZjr4MVzN3lDUCMfbIvLg2KNA/ghZQozfSgHo5tsqHSficWEWWH19yE0PDPof4NGIPIaxqTfusY3xVzxktcJYtzRaBKBiVrLZwIg7O7mY/OH8cBQKnPd6NgKOKU7CQ7LhcInhbm6AFKtuWRxkxS5S9RQPZofOwLni5tXbKnQrAhzH+xtNpgKxV47GOoi9UdBYgdLbBY01UHoV0FiB2mvJN+lNDdReX/dB+WCSCfsgQk9mTBVy7xBbeRg0reTDaOWzZej0YrUB6CYyMshOLNHBPNa/wLERxwpDm0j9vBmxr1ZaJ5NtxxYhEy02FKe+xntlijMVuK9yrdXBfY2itQqs1y5aq4H1qqC1CuxXS9qBa6YG9isLH/gHeiJpqxL1tdTArV5UCtpowDUyaJXCkTnvwA7WzfAGqNAFwYz9bS//l93L9y23j7KjT+gnnQbC6mseVwbwbXtsZ4MB7+2XiGwc1gM+RCz5pYhX8W+lAjtrRxvvayXaS9CM2xF4yKYCD1kO2zp4yFFgW4GB3AW2NTCQFWBbgXNsWQkpbOvgHK/nUM+ioLUWwnE4pw1CIym2T0Os5F3wTrjHeHZPvN9ZT5F2Jnyw+yTfHlBi3Q2OYlKvNWtdov9usqnATZZrnQ5uchStU2AlSydt2tTBSu5MndJH6RRoyFZCHm9SoCEH8roOWEb+usKpF2xfsY/2qfCQwZbAg8mwQNfy3EQgq6AYjBs7toO5W5COjJ/HQQKq8p6wdvK2u7aONBJUE1pEcXn3+8UuuQfr7dEGXOHRZPDX81BKFbCpUM+OmAJH0e9wqIa1DDq/6h5vsl2sVdfBKNF7XFb9+DFGqYr+qOM+NgqBG1lwiVK3kDz89KIheSx6tnvNZP8DzWZSFygkzwkUktpAIflLgEJSBRSk/BJelQ5+yaDdmOFtf7rIMJDKhyi1GDfHIEjdhwE0AkCcQ6GpEpAV8fEORFbBhrbDxCH+CLosrvOcmHd+HvwgyVdkKyM0jOgLNVjvmOeAD6RBUab2R4TQig+HwlM8ohuSrR9OjUXZLtNFsTXPiWJrqlBsZYqeNlUotl2IZBEocKYKszYlt1t05P0NMtuJXZmA2+kVK2654KeS6QlZSuzbLnEHCWDCxfe28KnPhCXaYxAfJ/DwWzBomGCQjnBc79RA3bcDw86jP4fYdGIsC5xRJ1veSZFF+xHXT9sWjTCNQWyysakS2sDTZFRGSL5s6uItm+fEWzZVeMtyrFbhLQ+B1Sp05ZR8F01DDubW8z0wBGim4z5aBJayqZSEmcLxNJ9rPzZrDq0IdMaA6dDBrlvZoxn9dEvkkAGl/+GQ8ZNKmCEU04vubGHqzAe7gqm0deqe5FhSPadIXARGT2QHmxhFcb8EBhFWGvARoP/unsAK3H4DOA2+/8+6u18lnGD8BvAYMcVEsT2PKsno7zKAPpNZXN4k6hTgau1n7CJcQ6HLezxTPEIErT9G+4jLiJEdp6siI1WdT0UeX+aM6HCussA+1k95NCciHPI1dbGWzXNiLZsqrGU54qiwlodAHBWuckruwKpwlbtI7qfBiQQ6Snma6bg6rcyhgxhbh15+GyCjZnv2T376CpFpEw/KU0JS2oWh/Hv8mBXlDdO2C6jNIBJZdT6ShdqRmppRjnoQ0Dp85y6+fVs6az6qaDqKlMOcsMbYHeEjsj4AszEnJlWYuobjBYbXhjjEIbfO2KC2Z1wQcYlBNvvaodaPfPTBWlw8WJ8xX3frpQ1rDL53A3vtT5vg8CuzfAcKCazt0ohLjyHFZOGjWDS/LWSeknchMyAwKZNCUCEVwU5VSRctiyVOiZq05Yv2c4LCOoqMuW4p56dFywPlipDuMqRFVcPliujSie6J/kWzA625CXmmCFHXcGmk22ievfL9i+Y+fhbps2lTumWVZkmk/Vyuz1cDXJOlI+uZalaSpiyg2Lel2m57JYFYBFnipmD3pZNTezb1bzg3L9/k9nPG8RN4uLqwVwwEp5VD+R/LG2iXo7T+sQDkxSq/ZYC9X4AwN+obBSK+PaAHdFkRUmdbCqcHpMhlaU6dHRm4LIXjBHLcsnQcJxgYtiyF4wQJeQICS1s27Uiiz1gqpwiGYssLp/EjG0LibSQEEGQrB9y7LrZLl+NeMSnLJta2h3N2kyVmnI0Ax+QREYqjBh7LmURd/2dgLEI+bUuBdi+HMc35tKPDmAIPPyE9vGjp4OHLutBL/quWAg8/IT97bGng4bfnLOwh+IylK6f2b7aXFtsrEiTR25bwsb63WRfoVBO9CerFVuj1TRUb46h+XecGWWYEyFI4cyCHLM35tqNDlsIhhC6QpeMQwuCQpXAIISE/bG3pSMF95iUePUFL5fTB/0/LK7zJ3mlrAVqSZcXinW3GFSfdRoEjDjM07xCQvJX7iNlllg5LBEijYda5YZTV/zSjZSkEtpJSkLI0BLbEQmsXcQyfdMUlSyGUlZS7hJaOUBZ7xSCt6v2EvypaHAjOk/IolqhLXxRrkK7MiOYHi2qBOqwyGqz8BUWGt9NwT3JwvdJ0SlxpOjaQ6U0gZMewV5axqHYY8aSWjQT2Qi91EgaevUtcNT4MzZrDTzADchAyUiDdf3+tzZJB6VTdRATzQoGlL9dcDSz9qIqrQNTvorcaiPqDqa0CST/ZJYqjI1d4my0hXpU5oPqqsPb1qO+v0jIh6vCvJvhD1Dui6ra/gZURvD6863AORdL2vuClDkvJCBaFwjkBOSxpOCcQFZYUjgok5X6OhqMC7E2+8MCfOnClZTv9sUnhrEBS/gpsS+WswLAdmLFUTgn09g99AyEI1rQ2i62CDca9OHDrv2EYmfL+i6l9sd0avrAIpGZn/47rMSPUJZ4bF5kPdgldadC+GGp0a8tuPWl4Lw8x4YpgJWxtYa4ru2G0ttbd8n+3ntH5X4zVnqA4L6AH98WxQIafjG8RCnUc5DwwcgI+xvDqPBZBnRXY9HJ11sCmj6rOCoT6pPQQrqUhZ3Xz7QbYlf11WIFMn5QnnbI0kOlDCyumOI7WiRlLhTof2aI4qxEdRgWjL3EaOr31uPPt5aCsYu2kwyjYH9I+JFa51TrrKYVs2WtYOhUOjX9hf9CvtZr+EdI9Wwq0ablSaqBNR1VKBeZ0F6XUkPE5qlIqsKaT8txDlg7WtEi9867IEhXSxh0sW5H1U4lErUs/fymb3n+vkRg/losVExI1WturYMrTn95+iU64oG1errIc787PjC8JQ3BS5GHAEEKcDyJESMZsKdCa5YiggdYcFREUmM1J6QFdS0M+ZiH0WrG1XRDzoT9AKJCck/Kj+5aOhMxcerHOtZ49phB7P1hQojn3hYU+Gzgdrx3DNKuYKtl99hDs8w9BymSk4/I3hwtWqE1295tYoNNibzR/6H7/GJnVp6ySVcz5zg5DbQeJnUNbuBXk54ZP19Kf7KBUOCmA7z6Q6ktHWkCBTp87QiJnSyGRs1z7NSRyjqr9Crmcu2i/hlzOitqvkMw5Kd0gvWZpSObcrOGcBfMAPmkti9SLGUsprfNQ2n/uq7/w9DFEV/TsXbZ65xFEDmy6YTcn+FNnR3ENbAFBnmdDCiNKgIO+AaYTQLrD+gbGX3VqfuJChMSGCQV6p1T1ExronRFVP6FA6ExKjzQlVAid8oNB0WS/mlAgcyZT0lBbQoXMOYzwMwmlpNCfjKaXq3jmEd1/4RfhMSQWwWDHqPFEuvi1GCuRE2StShmq6Wg8ZksOJczgZ2Ak+xpSD0B1Q9AI+SOAKe6rknD1KDNYaRO3BCQ+DCJSrY4JUFg8MZRbiHksyBOFD7JqWs8fx0RmWP8J+CaY/5p2VrfUGaKM4BtoQb0vCNeI4Wp5D19JU37IRzp25kWyobgLrbPMdup4AQ4aZHR47vUpu05JCdHLZdjth23wSZdt6BOhOwynSMmLAP8e7MmX4jguPhl6kdkqC9oKbEdnrZKPtWdP6RjhSs4r8I0XBPw3NElfbGFW6Q0hMY4yVEFZEtzjOjRIR2e5wGJ3jgJNPDECPKS+rwAbXb6dyWTTs9nZyxfvZJZuZaYz8/PLxvXFrxeytECELhtLmZv4Uo/JmfjIaOd1c3LGlFyfTk5Oj0uup5OTadn1K8nJKxOS61PJySnZ9enU5DTgjaSB1GRaWjAdj8MtMlnTUJKWlkzHrUl8N7XsHmsyLS25kpq8Ii2YSk1OSQum4zBYceloQUlaWjIdn5jE95bI7pmYTEtLps0Lk5hJUnIPlKSlJdNmYhJTXsnuSUympSXT5tgkni+W3TM2mZaWXIGeXpGWTEHJlLRk2oRJYEknAZSkpSXTFswCSzoLoCQtLbkCtV2RlkxByZS0ZNqCmWNJZw6UpKUl0xaMmyWdB1CSlpZMWzAPLOk8gJK0tOQKSIAGnqQ/UDLFSkYDXLh88e7srcw/zy7dmltYNuYzNwEjLnwBpuESsxrp7+ziXfwLjK8vF7NgUvIvtzOzNzJL+MUaMW4uLmbFF2zi3uLSV4REl/8XUEsBAhQDFAAAAAgAAAAhXLb72pwJAQAArgIAABMAAAAAAAAAAAAAAIABAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECFAMUAAAACAAAACFcfm/AhbEAAAAqAQAACwAAAAAAAAAAAAAAgAE6AQAAX3JlbHMvLnJlbHNQSwECFAMUAAAACAAAACFctFUVsesAAAA3AQAADwAAAAAAAAAAAAAAgAEUAgAAeGwvd29ya2Jvb2sueG1sUEsBAhQDFAAAAAgAAAAhXB+qsIPGAAAAqwEAABoAAAAAAAAAAAAAAIABLAMAAHhsL19yZWxzL3dvcmtib29rLnhtbC5yZWxzUEsBAhQDFAAAAAgAAAAhXB9OONOxAgAAfRQAAA0AAAAAAAAAAAAAAIABKgQAAHhsL3N0eWxlcy54bWxQSwECFAMUAAAACAAAACFctU+5Y+wbAABXrAAAGAAAAAAAAAAAAAAAgAEGBwAAeGwvd29ya3NoZWV0cy9zaGVldDEueG1sUEsFBgAAAAAGAAYAgAEAACgjAAAAAA==";
+
+function el(tag, cls, html){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(html !== undefined) e.innerHTML = html;
+  return e;
+}
+function esc(s){
+  return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// ---------------- 현황 tab ----------------
+function renderStatus(){
+  const root = document.getElementById('panel-status');
+  const dae = DATA.dae, jung = DATA.jung, so = DATA.so;
+
+  root.appendChild(el('div','section-title','생태계 구성 — 핵심 · 후방 · 전방 · 지원산업'));
+  const byCode = new Map(dae.map(d=>[d.code,d]));
+  const makeEcoCard = code=>{
+    const d = byCode.get(code);
+    if(!d) throw new Error('대분류 코드 누락: '+code);
+    const box = el('div','eco-card');
+    box.dataset.code = code;
+    const role = el('div','role');
+    role.textContent = d.role;
+    const name = el('div','name');
+    name.textContent = d.code+'. '+d.name;
+    box.appendChild(role);
+    box.appendChild(name);
+    return box;
+  };
+  const makeEcoArrow = ()=>{
+    const arrow = el('div','eco-arrow','&rarr;');
+    arrow.setAttribute('aria-hidden','true');
+    return arrow;
+  };
+
+  const ecosystem = el('figure','ecosystem-map');
+  const mainFlow = el('div','eco-main');
+  mainFlow.setAttribute('aria-label','그린바이오산업 주 가치사슬');
+  mainFlow.appendChild(makeEcoCard('1'));
+  mainFlow.appendChild(makeEcoArrow());
+
+  const coreGroup = el('div','eco-core-group');
+  coreGroup.setAttribute('role','group');
+  coreGroup.setAttribute('aria-label','핵심산업: 생물자원 생산업과 제조업');
+  coreGroup.appendChild(el('div','eco-core-title','핵심산업 · 직접 생산 영역'));
+  const coreFlow = el('div','eco-core-flow');
+  coreFlow.appendChild(makeEcoCard('2'));
+  coreFlow.appendChild(makeEcoArrow());
+  coreFlow.appendChild(makeEcoCard('3'));
+  coreGroup.appendChild(coreFlow);
+  mainFlow.appendChild(coreGroup);
+
+  mainFlow.appendChild(makeEcoArrow());
+  mainFlow.appendChild(makeEcoCard('4'));
+  ecosystem.appendChild(mainFlow);
+
+  const supportBridge = el('div','eco-support-bridge');
+  supportBridge.setAttribute('aria-hidden','true');
+  for(let i=0;i<4;i++) supportBridge.appendChild(el('span','', '&uarr;'));
+  ecosystem.appendChild(supportBridge);
+
+  const supportData = byCode.get('5');
+  const supportCard = el('div','eco-support-card');
+  supportCard.dataset.code = '5';
+  const supportIdentity = el('div','identity');
+  const supportRole = el('div','role');
+  supportRole.textContent = supportData.role;
+  const supportName = el('div','name');
+  supportName.textContent = supportData.code+'. '+supportData.name;
+  supportIdentity.appendChild(supportRole);
+  supportIdentity.appendChild(supportName);
+  supportCard.appendChild(supportIdentity);
+  if(supportData.roleDesc){
+    const scope = el('div','scope');
+    scope.textContent = supportData.roleDesc;
+    supportCard.appendChild(scope);
+  }
+  ecosystem.appendChild(supportCard);
+
+  root.appendChild(ecosystem);
+
+  root.appendChild(el('div','section-title','대분류별 중·소분류 분포'));
+  const table = el('table','dist-table');
+  const thead = el('thead','', '<tr><th>대분류</th><th style="text-align:right">중분류</th><th style="text-align:right">소분류</th></tr>');
+  table.appendChild(thead);
+  const tbody = el('tbody');
+  let tJ=0,tS=0;
+  dae.forEach(d=>{
+    const jList = jung.filter(j=>j.dae===d.code);
+    const jCodes = jList.map(j=>j.code);
+    const sList = so.filter(s=>jCodes.includes(s.jung));
+    tJ+=jList.length; tS+=sList.length;
+    const tr = el('tr','', '<td>'+esc(d.code)+'. '+esc(d.name)+'</td>' +
+      '<td class="num">'+jList.length+'</td><td class="num">'+sList.length+'</td>');
+    tbody.appendChild(tr);
+  });
+  tbody.appendChild(el('tr','', '<td>합계 '+dae.length+'개 대분류</td><td class="num">'+tJ+'</td><td class="num">'+tS+'</td>'));
+  table.appendChild(tbody);
+  root.appendChild(table);
+}
+
+// ---------------- 개발원칙 및 절차 tab ----------------
+function renderMethod(){
+  const root = document.getElementById('panel-method');
+
+  root.innerHTML = `
+<p class="method-lead">「그린바이오산업 육성에 관한 법률」이 정한 산업의 규모와 구조를 통계로 포착하기 위한 산업 특수분류 작업안이다.</p>
+
+<div class="section-title">산업 범위를 정하는 두 요건</div>
+<p class="method-lead">일반 바이오산업이 그대로 들어오지 않도록 두 요건을 모두 충족해야 포함한다. 이름에 ‘바이오’가 있거나 생물에서 유래했다는 사실, 그린바이오기업과 거래한다는 사실만으로는 충족하지 않는다.</p>
+
+<figure class="law-box">
+  <figcaption>「그린바이오산업 육성에 관한 법률」 제2조(정의)</figcaption>
+  <p>1. “그린바이오”란 「농업생명자원의 보존ㆍ관리 및 이용에 관한 법률」 제2조제1호에 따른 농업생명자원 등에 「생명공학육성법」 제2조제1호의 생명공학과 관련된 기술을 적용하는 것을 말한다.</p>
+  <div class="law-sub">
+    <p><b>「농업생명자원의 보존ㆍ관리 및 이용에 관한 법률」 제2조제1호</b> — “농업생명자원”이란 「농업ㆍ농촌 및 식품산업 기본법」 제3조제1호에 따른 농업에 실제적이거나 잠재적인 가치가 있는 동물, 식물, 미생물 등 생물체의 실물(實物)과 그 실물을 이용하여 파악된 유용한 사실 등의 정보를 말한다.</p>
+    <p><b>「생명공학육성법」 제2조제1호</b> — “생명공학”이란 각종 생물체의 생물학적 시스템, 생체, 유전체 또는 그들로부터 유래되는 물질ㆍ정보를 연구ㆍ활용하는 학문과 기술을 말하며, 기초의과학(基礎醫科學)을 포함한다.</p>
+  </div>
+  <p>2. “그린바이오산업”이란 그린바이오를 활용하여 농업 및 농업 관련 전ㆍ후방 산업에 부가가치를 창출하는 산업으로서, 다음 각 목과 관련된 재화 또는 서비스를 개발ㆍ생산ㆍ판매ㆍ유통하는 산업을 말한다.</p>
+  <ol>
+    <li>가. 「종자산업법」 제2조제1호에 따른 종자</li>
+    <li>나. 「농업생명자원의 보존ㆍ관리 및 이용에 관한 법률」 제2조제1호에 따른 농업생명자원으로서의 미생물</li>
+    <li>다. 「곤충산업의 육성 및 지원에 관한 법률」 제2조제1호에 따른 곤충</li>
+    <li>라. 「천연물신약 연구개발 촉진법」 제2조제1호에 따른 천연물</li>
+    <li>마. 「식품산업진흥법」 제2조제1호의 식품의 제조에 사용되는 원재료 또는 중간생산물로서 분말, 액상 등 별도의 형태로 가공된 것</li>
+    <li>바. 그 밖에 대통령령으로 정하는 것</li>
+  </ol>
+  <div class="law-sub">
+    <p><b>「그린바이오산업 육성에 관한 법률 시행령」 제2조</b> — 법 제2조제2호바목에서 “대통령령으로 정하는 것”이란 「약사법」 제2조제4호에 따른 의약품으로서 <b>동물용으로만 사용할 것을 목적으로 하는 의약품</b>을 말한다.</p>
+    <p>따라서 산업범위를 정하는 관련 분야는 여섯이다.</p>
+  </div>
+</figure>
+<div class="method-block"><ul>
+  <li><b>요건 A · 관련 분야</b> — 법이 열거한 여섯 분야와 직접 연결될 것
+    <ul><li>종자 / 농업에 실제적·잠재적 가치가 있는 미생물 / 곤충 / 천연물 / 식품 제조용 가공 원재료·중간생산물 / 동물용 의약품</li></ul></li>
+  <li><b>요건 B · 그린바이오 직접성</b> — 다음 중 하나가 객관적으로 확인될 것
+    <ul>
+      <li>생명공학 관련 기술·생물공정이 생물자원·공정·산출물에 직접 적용됨</li>
+      <li>기자재·서비스가 그린바이오 연구·생산에 전용되거나 주로 사용되거나 실질적으로 특화됨</li>
+      <li>도소매·서비스의 대상과 관련 매출을 일반 상품·서비스와 분리해 식별할 수 있음</li>
+    </ul></li>
+  <li><b>두 요건의 실제 작동 사례</b> — 가축 정액·수정란 생산업은 농업생명자원인 동물에 생명공학 기술을 적용하므로 요건 B는 충족하지만, 여섯 관련 분야 어디에도 열거되지 않아 요건 A를 통과하지 못한다. 따라서 분류 본체에서 제외하고 법률상 포함 후보로만 기록했다.</li>
+</ul></div>
+
+<div class="section-title">분류 설계 원칙</div>
+<div class="method-block"><ul>
+  <li><b>설계 방식</b> — 대분류는 정책 골격으로 하향식 확정하고, 중·소분류는 실제 사업체 활동에서 반복 관찰되는 군집으로 상향식 도출했다. 최종 항목 수를 미리 고정하지 않는다.</li>
+  <li><b>생태계 구성</b> — 핵심산업(생물자원 생산·제조)에 직접 후방(기자재 공급), 직접 전방(도소매), 직접 지원(서비스)을 더한 네 부문으로 구성한다.</li>
+  <li><b>계층은 3단계</b> — 대·중·소분류까지만 본체에 둔다. 소분류 아래 72개를 시험 설계한 세분류안은 과도한 세분화로 판단해 참고자료로만 보존했다.</li>
+  <li><b>규모의 근거</b> — 통계분류포털에 게시된 산업 특수분류 37종을 전수 비교한 결과 3단계가 22종으로 가장 많고 대·중·소분류 수의 중앙값은 각각 5·14·34였다. 이를 근거로 잠정 목표범위를 대5 / 중15~20 / 소30~50으로 두었고 현재 안은 그 범위 안에 있다. 5단계 구조는 농림축산식품산업 1종뿐이라 일반 규칙으로 삼지 않았다.</li>
+</ul></div>
+
+<div class="section-title">정의 근거의 우선순위</div>
+<table class="ref-table">
+  <thead><tr><th style="width:3em">순위</th><th style="width:34%">근거</th><th>이 분류에서의 역할</th></tr></thead>
+  <tbody>
+    <tr><td class="src">1</td><td>법률·시행령과 인용 법률</td><td>그린바이오와 여섯 관련 분야, 산업범위의 최상위 진입조건</td></tr>
+    <tr><td class="src">2</td><td>KS J 1009(한국바이오산업정보서비스)</td><td>생명공학기술과 바이오 재화·장비·자원·서비스의 기능과 용어</td></tr>
+    <tr><td class="src">3</td><td>한국표준산업분류 제11차</td><td>사업체·주활동 개념과 생산·제조·도소매·서비스의 행위 문형</td></tr>
+    <tr><td class="src">4</td><td>UN ISIC Rev.4 · OECD 바이오기술 통계정의</td><td>활동분류 원칙과 목록기반 바이오기술 판정 보조</td></tr>
+    <tr><td class="src">5</td><td>농림축산식품산업 특수분류</td><td>농식품 가치사슬의 기자재–생산–제조–유통–서비스 계층 표현</td></tr>
+  </tbody>
+</table>
+
+
+<div class="section-title">핵심 참고 자료</div>
+<table class="ref-table">
+  <thead><tr><th style="width:16%">구분</th><th style="width:42%">자료</th><th>이 분류에서의 역할</th></tr></thead>
+  <tbody>
+    <tr><td class="src">법령</td><td>「그린바이오산업 육성에 관한 법률」 및 시행령 조문 전문</td><td>산업 정의와 여섯 관련 분야, 진입조건의 최상위 근거</td></tr>
+    <tr><td class="src">법령</td><td>인용·품목 법령 16건 — 농업생명자원법, 생명공학육성법, 종자산업법, 곤충산업법, 천연물신약법, 식품산업진흥법, 약사법, 농약관리법, 비료관리법, 사료관리법, 식품위생법, 건강기능식품법, 화장품법, 유전자변형생물체법, 동물용의약품등 취급규칙 등</td><td>종자·미생물·곤충·천연물·식품 원재료·동물용 의약품의 경계와 품목별 법률상 명칭·기능</td></tr>
+    <tr><td class="src">국내 분류</td><td>한국표준산업분류 제11차 해설서와 분류별 정의서(2,038개 항목)</td><td>활동 문형, 주활동·부수활동 원칙, 연계코드 검토</td></tr>
+    <tr><td class="src">국내 분류</td><td>KS J 1009:2021 바이오산업 분류(8대분류·51중분류)와 부속서 A 기술분류</td><td>바이오 재화·자원·서비스의 기능 구분과 국내 표준 용어</td></tr>
+    <tr><td class="src">국내 분류</td><td>농림축산식품산업 특수분류 항목별 정의서(667개 코드)</td><td>인접 승인 특수분류와의 중복·차별화 검토, 가치사슬 계층 표현</td></tr>
+    <tr><td class="src">국제 기준</td><td>UN ISIC Rev.4 국제표준산업분류</td><td>활동·분류단위·주활동의 구성원칙</td></tr>
+    <tr><td class="src">국제 기준</td><td>OECD 바이오기술·나노기술 통계정의(2018)</td><td>단일정의와 목록기반 기술 판정을 함께 쓰는 국제 방식</td></tr>
+    <tr><td class="src">제도·규모</td><td>국가데이터처 산업 특수분류 개발 수요조사 계획과 통계분류포털 37종 규모 현황</td><td>공식 개발절차, 계층 깊이와 항목 수의 비교 기준</td></tr>
+    <tr><td class="src">한국농업기술진흥원 기획안</td><td>그린바이오산업 특수분류체계(안) v2(2025-11-04, 농림축산식품부·한국농업기술진흥원)</td><td>비교 기준선과 국내 후보항목·현장용어</td></tr>
+    <tr><td class="src">사업체</td><td>그린바이오기업 신고현황 845개사, 국내 바이오기업 현황 1,887개, 업종 협회 회원명단 5건</td><td>모집단 후보와 항목별 예시 사업체의 근거</td></tr>
+  </tbody>
+</table>
+`;
+}
+
+// ---------------- 다운로드 tab ----------------
+function renderDownload(){
+  const root = document.getElementById('panel-download');
+  const bytes = Math.round(XLSX_B64.length * 3 / 4);
+  const size = bytes > 1024 ? (bytes/1024).toFixed(0)+'KB' : bytes+'B';
+
+  root.appendChild(el('div','section-title','그린바이오산업 특수분류표 내려받기'));
+
+  const card = el('div','dl-card');
+  card.appendChild(el('h3','','그린바이오산업 특수분류(안) 대·중·소분류표'));
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'dl-btn';
+  btn.textContent = '엑셀 파일 다운로드 (.xlsx)';
+  btn.addEventListener('click', downloadWorkbook);
+  card.appendChild(btn);
+  card.appendChild(el('div','dl-meta', '파일명 그린바이오산업_특수분류표.xlsx · 약 '+size));
+  root.appendChild(card);
+}
+
+function downloadWorkbook(){
+  if(!XLSX_B64){
+    alert('엑셀 데이터가 아직 생성되지 않았습니다. build_index.py를 실행하세요.');
+    return;
+  }
+  const bin = atob(XLSX_B64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '그린바이오산업_특수분류표.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+// ---------------- 분류표 tab ----------------
+let currentLevel = 'dae'; // dae, jung, so
+let showAllDefinitions = false;
+let showAllBusinesses = false;
+let definitionCheckbox = null;
+let businessCheckbox = null;
+
+const PANELS = {
+  def: {label:'정의', cls:'node-def', open:'def-open'},
+  biz: {label:'사업체', cls:'node-biz', open:'biz-open'}
+};
+
+function levelRank(l){ return {dae:0,jung:1,so:2}[l]; }
+
+function syncPanelCheckbox(kind){
+  const box = kind === 'def' ? definitionCheckbox : businessCheckbox;
+  if(!box) return;
+  const spec = PANELS[kind];
+  const nodes = [...document.querySelectorAll('#panel-table .node')]
+    .filter(node=>node.querySelector(':scope > .node-detail > .'+spec.cls));
+  const openCount = nodes.filter(node=>node.classList.contains(spec.open)).length;
+  box.checked = nodes.length > 0 && openCount === nodes.length;
+  box.indeterminate = openCount > 0 && openCount < nodes.length;
+  if(kind === 'def') showAllDefinitions = box.checked;
+  else showAllBusinesses = box.checked;
+}
+
+function createNode(level, item, children=[], initialExpanded=false){
+  const {code, name, def} = item;
+  const hasChildren = children.length > 0;
+  const node = el('div','node node-'+level+(hasChildren ? ' has-kids' : ''));
+  const row = el('div','row');
+  const codeEl = el('span','code');
+  codeEl.textContent = code;
+  row.appendChild(codeEl);
+
+  let nameControl;
+  if(hasChildren){
+    nameControl = document.createElement('button');
+    nameControl.type = 'button';
+    nameControl.className = 'name btn-node-name';
+  }else{
+    nameControl = el('span','name');
+  }
+  nameControl.textContent = name;
+  row.appendChild(nameControl);
+
+  const actions = el('span','row-actions');
+  const detail = el('div','node-detail');
+  const examples = Array.isArray(item.examples) ? item.examples : [];
+
+  // 정의와 사업체를 같은 방식으로 토글한다. 둘 다 열리면 나란히 배치된다.
+  const addPanel = (kind, panel, initiallyOpen)=>{
+    const spec = PANELS[kind];
+    panel.classList.add(spec.cls);
+    panel.id = kind+'-'+level+'-'+code;
+    detail.appendChild(panel);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-def';
+    btn.textContent = spec.label;
+    btn.setAttribute('aria-controls', panel.id);
+    const apply = opened=>{
+      node.classList.toggle(spec.open, opened);
+      panel.hidden = !opened;
+      btn.setAttribute('aria-expanded', String(opened));
+      btn.setAttribute('aria-label', code+' '+name+' '+spec.label+' '+(opened ? '접기' : '보기'));
+    };
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      apply(!node.classList.contains(spec.open));
+      syncPanelCheckbox(kind);
+    });
+    apply(initiallyOpen);
+    actions.appendChild(btn);
+  };
+
+  if(def) addPanel('def', defBlock(item), showAllDefinitions);
+  if(examples.length) addPanel('biz', bizBlock(examples), showAllBusinesses);
+
+  let toggleBtn = null;
+  if(hasChildren){
+    toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'btn-toggle';
+    toggleBtn.appendChild(el('span','chev','▶'));
+    actions.appendChild(toggleBtn);
+  }
+  row.appendChild(actions);
+
+  node.appendChild(row);
+  if(detail.children.length) node.appendChild(detail);
+
+  const kids = el('div','kids');
+  kids.id = 'children-'+level+'-'+code;
+  kids.hidden = true;
+  children.forEach(child => kids.appendChild(child));
+  node.appendChild(kids);
+
+  if(hasChildren){
+    const setExpanded = expanded=>{
+      node.classList.toggle('expanded', expanded);
+      kids.hidden = !expanded;
+      nameControl.setAttribute('aria-expanded', String(expanded));
+      toggleBtn.setAttribute('aria-expanded', String(expanded));
+      const action = expanded ? '접기' : '펼치기';
+      nameControl.setAttribute('aria-label', code+' '+name+' 하위 분류 '+action);
+      toggleBtn.setAttribute('aria-label', code+' '+name+' 하위 분류 '+action);
+      toggleBtn.title = '하위 분류 '+action;
+    };
+    const toggleExpanded = ()=>setExpanded(!node.classList.contains('expanded'));
+    nameControl.setAttribute('aria-controls', kids.id);
+    toggleBtn.setAttribute('aria-controls', kids.id);
+    nameControl.addEventListener('click', toggleExpanded);
+    toggleBtn.addEventListener('click', toggleExpanded);
+    setExpanded(initialExpanded);
+  }
+
+  return node;
+}
+
+function renderTable(){
+  const root = document.getElementById('panel-table');
+  root.innerHTML = '';
+
+  const toolbar = el('div','toolbar');
+  const controls = el('div','level-controls');
+  controls.setAttribute('role','group');
+  controls.setAttribute('aria-label','표시할 분류 층위 선택');
+  const levels = [['dae','대분류'],['jung','중분류'],['so','소분류']];
+  levels.forEach(([lv,label])=>{
+    const b = el('button','level-key '+lv+(lv===currentLevel ? ' active':''),esc(label));
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(lv===currentLevel));
+    b.addEventListener('click', ()=>{ currentLevel = lv; renderTable(); });
+    controls.appendChild(b);
+  });
+  toolbar.appendChild(controls);
+
+  const makeControl = (kind, text)=>{
+    const spec = PANELS[kind];
+    const wrap = el('label','definition-control');
+    const box = document.createElement('input');
+    box.type = 'checkbox';
+    box.checked = kind === 'def' ? showAllDefinitions : showAllBusinesses;
+    box.setAttribute('aria-label', '전체 '+text);
+    box.addEventListener('change', ()=>{
+      const on = box.checked;
+      box.indeterminate = false;
+      if(kind === 'def') showAllDefinitions = on; else showAllBusinesses = on;
+      document.querySelectorAll('#panel-table .node').forEach(node=>{
+        const panel = node.querySelector(':scope > .node-detail > .'+spec.cls);
+        if(!panel) return;
+        const btn = node.querySelector(':scope > .row [aria-controls="'+panel.id+'"]');
+        node.classList.toggle(spec.open, on);
+        panel.hidden = !on;
+        if(btn){
+          btn.setAttribute('aria-expanded', String(on));
+          btn.setAttribute('aria-label',
+            (btn.getAttribute('aria-label')||'').replace(/(보기|접기)$/, on ? '접기' : '보기'));
+        }
+      });
+    });
+    wrap.appendChild(box);
+    wrap.appendChild(document.createTextNode(text));
+    toolbar.appendChild(wrap);
+    return box;
+  };
+
+  definitionCheckbox = makeControl('def', '정의 보기');
+  businessCheckbox = makeControl('biz', '사업체 보기');
+  root.appendChild(toolbar);
+
+  const rank = levelRank(currentLevel);
+  const tree = el('div','tree');
+
+  DATA.dae.forEach(d=>{
+    const jungChildren = [];
+    const jList = DATA.jung.filter(j=>j.dae===d.code);
+    jList.forEach(j=>{
+      const soChildren = [];
+      const sList = DATA.so.filter(s=>s.jung===j.code);
+      sList.forEach(s=>{
+        soChildren.push(createNode('so', s));
+      });
+      jungChildren.push(createNode('jung', j, soChildren, rank >= 2));
+    });
+    tree.appendChild(createNode('dae', d, jungChildren, rank >= 1));
+  });
+
+  root.appendChild(tree);
+  syncPanelCheckbox('def');
+  syncPanelCheckbox('biz');
+}
+
+function bizBlock(examples){
+  const b = el('div','biz-block');
+  b.appendChild(el('div','lbl','예시 사업체'));
+  const ul = el('ul','biz-list');
+  examples.forEach(x=>{
+    const li = document.createElement('li');
+    if(x.url){
+      const a = document.createElement('a');
+      a.href = x.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = x.name;
+      li.appendChild(a);
+    }else{
+      li.textContent = x.name;
+    }
+    ul.appendChild(li);
+  });
+  b.appendChild(ul);
+  return b;
+}
+
+function defBlock(item){
+  const b = el('div','def-block');
+  const hasIncludeList = Array.isArray(item.include) && item.include.length > 0;
+
+  b.appendChild(el('div','lbl', hasIncludeList ? '정의' : '정의&middot;포함'));
+  b.appendChild(el('div','', esc(item.def)));
+
+  const addList = (cls, label, value)=>{
+    if(!value || (Array.isArray(value) && value.length === 0)) return;
+    const sec = el('div', cls);
+    sec.appendChild(el('div','lbl', label));
+    if(Array.isArray(value)){
+      const ul = el('ul','def-list');
+      value.forEach(v=>{
+        const li = document.createElement('li');
+        li.textContent = v;
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+    }else{
+      sec.appendChild(el('div','', esc(value)));
+    }
+    b.appendChild(sec);
+  };
+
+  addList('incl', '포함', item.include);
+  addList('excl', '주요 제외&middot;이동', item.exclude);
+
+  return b;
+}
+
+// ---------------- tabs ----------------
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+renderStatus();
+renderTable();
+renderMethod();
+renderDownload();
+</script>
+</body>
+</html>
