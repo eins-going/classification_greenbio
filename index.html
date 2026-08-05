@@ -174,7 +174,16 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
   color:var(--text-muted);margin-bottom:6px;
 }
 .eco-card .name,.eco-support-card .name{
-  font-size:13.5px;font-weight:600;line-height:1.4;word-break:keep-all;overflow-wrap:break-word;
+  font-size:13.5px;font-weight:600;line-height:1.4;
+  display:flex;flex-wrap:nowrap;align-items:baseline;
+}
+/* 코드(1. 2. …)를 명칭과 분리한 뒤 명칭만 감싸지게 하여,
+   카드가 좁아져 두 줄로 줄바꿈돼도 항상 "그린~" 시작 위치에 맞춰 내어쓰기 되도록 함 */
+.eco-card .name .nm-code,.eco-support-card .name .nm-code{
+  flex:0 0 auto;margin-right:.3em;
+}
+.eco-card .name .nm-text,.eco-support-card .name .nm-text{
+  flex:1 1 auto;min-width:0;word-break:keep-all;overflow-wrap:break-word;
 }
 .eco-arrow{
   align-self:center;justify-self:center;color:#80868b;font-size:18px;
@@ -412,6 +421,12 @@ function renderStatus(){
 
   root.appendChild(el('div','section-title','생태계 구성 — 핵심 · 후방 · 전방 · 지원산업'));
   const byCode = new Map(dae.map(d=>[d.code,d]));
+  const makeName = (code, nameStr)=>{
+    const wrap = el('div','name');
+    wrap.appendChild(el('span','nm-code', code+'.'));
+    wrap.appendChild(el('span','nm-text', nameStr));
+    return wrap;
+  };
   const makeEcoCard = code=>{
     const d = byCode.get(code);
     if(!d) throw new Error('대분류 코드 누락: '+code);
@@ -419,10 +434,8 @@ function renderStatus(){
     box.dataset.code = code;
     const role = el('div','role');
     role.textContent = d.role;
-    const name = el('div','name');
-    name.textContent = d.code+'. '+d.name;
     box.appendChild(role);
-    box.appendChild(name);
+    box.appendChild(makeName(d.code, d.name));
     return box;
   };
   const makeEcoArrow = ()=>{
@@ -463,10 +476,8 @@ function renderStatus(){
   const supportIdentity = el('div','identity');
   const supportRole = el('div','role');
   supportRole.textContent = supportData.role;
-  const supportName = el('div','name');
-  supportName.textContent = supportData.code+'. '+supportData.name;
   supportIdentity.appendChild(supportRole);
-  supportIdentity.appendChild(supportName);
+  supportIdentity.appendChild(makeName(supportData.code, supportData.name));
   supportCard.appendChild(supportIdentity);
   ecosystem.appendChild(supportCard);
 
