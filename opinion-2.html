@@ -105,6 +105,12 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
   border-radius:var(--radius);
 }
 .law-box ::selection{background:var(--accent);color:#fff;}
+/* 수정사항 패널: 검토 의견임을 띄우는 앰버(주황) 계열 배경 */
+#panel-revisions .law-box{
+  background:#fff7ed;border:1px solid #f5c98a;
+}
+#panel-revisions .law-box figcaption{color:#b45309;}
+#panel-revisions .revision-text{color:#5b3a16;}
 .law-box figcaption{
   font-size:11.5px;font-weight:700;letter-spacing:.03em;
   color:var(--accent-strong);margin-bottom:10px;
