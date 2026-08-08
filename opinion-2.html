@@ -48,7 +48,7 @@ body{
 button{font:inherit;}
 ::selection{background:var(--accent-soft);color:var(--text);}
 
-.wrap{max-width:1200px;margin:0;padding:28px 28px 72px;}
+.wrap{width:100%;max-width:1200px;margin:0;padding:28px 28px 72px;}
 
 header.top{
   display:flex;flex-direction:column;gap:5px;
@@ -431,6 +431,7 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
 .backdrop{display:none;}
 /* 데스크탑: 사이드바를 버튼(42px)만 남기고 밀어 넣는다 → 안쪽 버튼이 항상 노출 */
 .layout.sidebar-collapsed .sidebar{margin-left:-222px;}
+.layout.sidebar-collapsed .wrap{max-width:1422px;}
 
 @media (max-width:860px){
   .layout{flex-direction:column;}
@@ -441,6 +442,7 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
   }
   .layout.sidebar-collapsed .sidebar{transform:translateX(-100%);margin-left:0;}
   .layout:not(.sidebar-collapsed) .sidebar{transform:translateX(0);}
+  .layout.sidebar-collapsed .wrap{max-width:1200px;}
   .content{min-height:100vh;}
   .backdrop{display:none;position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.35);}
   .layout:not(.sidebar-collapsed) .backdrop{display:block;}
@@ -469,16 +471,19 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
       <button class="sb-toggle" id="sidebarToggle" aria-label="사이드바 접기" aria-expanded="true">›</button>
     </div>
     <nav class="opinion-nav">
-      <a class="op-item" href="opinion-1.html">
-        <span class="op-no">제1차 의견서</span>
-        <span class="op-date">2026. 8. 5.</span>
-      </a>
-
-      <a class="op-item active" href="opinion-2.html">
-        <span class="op-no">제2차 의견서</span>
-        <span class="op-date">2026. 8. 6. · 현재 화면</span>
-      </a>
-    </nav>
+<a class="op-item" href="opinion-1.html">
+<span class="op-no">제1차 의견서</span>
+<span class="op-date">2026. 8. 5.</span>
+</a>
+<a class="op-item active" href="opinion-2.html">
+<span class="op-no">제2차 의견서</span>
+<span class="op-date">2026. 8. 6. · 현재 화면</span>
+</a>
+<a class="op-item" href="opinion-3.html">
+<span class="op-no">제3차 의견서</span>
+<span class="op-date">2026. 8. 10.</span>
+</a>
+</nav>
   </aside>
 
   <div class="content">
