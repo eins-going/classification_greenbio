@@ -541,6 +541,28 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
   header.top .doc-label{white-space:normal;}
 }
 
+
+/* 개념 구조도 */
+.concept-structure{margin:0 0 26px;}
+.cs-flow{display:flex;gap:12px;align-items:stretch;}
+.cs-box{flex:1;border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--surface);}
+.cs-box .cs-head{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--text-muted);margin-bottom:6px;}
+.cs-box .cs-name{font-size:15px;font-weight:700;color:var(--text);}
+.cs-box p{margin:6px 0 0;font-size:12.5px;color:var(--text-muted);line-height:1.6;}
+.cs-arrow{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;min-width:140px;text-align:center;}
+.cs-arrow .cs-glyph{font-size:20px;color:var(--accent);line-height:1;}
+.cs-arrow .cs-glyph.v{display:none;}
+.cs-arrow .cs-label{font-size:12.5px;font-weight:700;color:var(--accent);}
+.cs-arrow .cs-sub{font-size:11px;color:var(--text-muted);line-height:1.45;}
+.cs-tier{margin-top:8px;padding:8px 10px;border:1px dashed var(--border);border-radius:8px;}
+.cs-tier .lbl{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--tier-ink);}
+.cs-note{margin-top:10px;font-size:12px;color:var(--text-muted);line-height:1.6;}
+@media (max-width:720px){
+  .cs-flow{flex-direction:column;}
+  .cs-arrow{min-width:0;padding:4px 0;}
+  .cs-arrow .cs-glyph.h{display:none;}
+  .cs-arrow .cs-glyph.v{display:block;}
+}
 </style>
 </head>
 <body>
@@ -926,6 +948,32 @@ function esc(s){
 function renderStatus(){
   const root = document.getElementById('panel-status');
   const dae = DATA.dae, jung = DATA.jung, so = DATA.so;
+
+  root.appendChild(el('div','section-title','개념 구조 — 기술 적용의 객체와 산업범위'));
+  const cs = el('figure','concept-structure');
+  cs.innerHTML = `
+<div class="cs-flow">
+  <div class="cs-box">
+    <div class="cs-head">기술 적용의 객체</div>
+    <div class="cs-name">농업생명자원 등</div>
+    <p>농업에 실제적·잠재적 가치가 있는 동물·식물·미생물 등 생물체의 <b>실물</b>과 그 실물에서 파악된 <b>정보</b> — 「농업생명자원법」 제2조제1호. '등'으로 열려 있고 자원에 정보가 포함되어, 실물 없이 정보만 다루어도 그린바이오가 성립한다(법 제13조).</p>
+  </div>
+  <div class="cs-arrow">
+    <span class="cs-glyph h" aria-hidden="true">&rarr;</span>
+    <span class="cs-glyph v" aria-hidden="true">&darr;</span>
+    <span class="cs-label">그린바이오</span>
+    <span class="cs-sub">생명공학 관련 기술의 적용<br>(법 제2조제1호)</span>
+  </div>
+  <div class="cs-box">
+    <div class="cs-head">산업범위 — 여섯 관련 분야 (법 제2조제2호, 합집합)</div>
+    <div class="cs-tier"><span class="lbl">자원 — 살아 있는 것</span>
+      <p><b>천연물</b>이 가장 넓고(육상·해양의 생물 전반과 생물 기원 산물, 라목) 그 안에 <b>종자</b>(식물, 가목)·<b>미생물</b>(나목)·<b>곤충</b>(동물, 다목)이 든다. 미생물만 나목이 "농업생명자원으로서의"로 명시해 연결한다.</p></div>
+    <div class="cs-tier"><span class="lbl">재화 — 자원에서 유래한 가공물</span>
+      <p><b>식품소재</b> — 분말·액상 등 별도 형태로 가공된 원재료·중간생산물(마목) · <b>동물용 의약품</b> — 최종재(바목·시행령 제2조)</p></div>
+  </div>
+</div>
+<p class="cs-note">여섯 분야는 서로 배타적이지 않은 합집합 목록이므로 분류축으로 쓰지 않고 <b>범위 판정 요건(문턱 A)</b>으로만 쓴다. 분류축은 아래의 활동 단계다.</p>`;
+  root.appendChild(cs);
 
   root.appendChild(el('div','section-title','법령 기준 산업범위 — 연구개발 · 생산 · 제조 · 판매·유통 · 서비스'));
   const byCode = new Map(dae.map(d=>[d.code,d]));
