@@ -963,7 +963,6 @@ function renderStatus(){
 </tbody>`;
   root.appendChild(mx);
 
-  root.appendChild(el('div','section-title','법령 기준 산업범위 — 연구개발 · 생산 · 제조 · 판매·유통 · 서비스'));
   const byCode = new Map(dae.map(d=>[d.code,d]));
   const makeEcoCard = code=>{
     const d = byCode.get(code);
@@ -987,9 +986,6 @@ function renderStatus(){
     return arrow;
   };
 
-  const legalNote = el('div','law-box');
-  legalNote.innerHTML = '<figcaption>분류 경계</figcaption><p>「그린바이오산업 육성에 관한 법률」 제2조에 따라 그린바이오를 활용하여 법정 관련 분야의 재화 또는 서비스를 <b>개발·생산·판매·유통</b>하는 산업활동을 분류한다. 생산은 생물자원 생산(2)과 제조(3)로 나누어 편성한다. 서비스는 생산과 소비가 분리되지 않아 생산·판매·유통이 제공 하나로 합쳐지므로, 서비스의 개발은 연구개발업(1)에, 서비스의 제공은 서비스업(5)에 편성한다. 단순 생태계 연관성만으로는 포함하지 않는다.</p>';
-  root.appendChild(legalNote);
 
   const ecosystem = el('figure','ecosystem-map');
   const mainFlow = el('div','eco-main legal-scope');
