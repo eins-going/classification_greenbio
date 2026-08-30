@@ -975,6 +975,15 @@ function renderStatus(){
 <p class="cs-note">여섯 분야는 서로 배타적이지 않은 합집합 목록이므로 분류축으로 쓰지 않고 <b>범위 판정 요건(문턱 A)</b>으로만 쓴다. 분류축은 아래의 활동 단계다.</p>`;
   root.appendChild(cs);
 
+  root.appendChild(el('div','section-title','법 제2조제2호의 완전분해 — 재화·서비스 × 개발·생산·판매·유통'));
+  const mx = el('table','dist-table matrix-table');
+  mx.innerHTML = `<thead><tr><th style="width:90px"></th><th>개발</th><th>생산</th><th>판매·유통</th></tr></thead>
+<tbody>
+<tr><td><b>재화</b></td><td>1 연구개발업</td><td>2 생산업 · 3 제조업</td><td>4 판매·유통업</td></tr>
+<tr><td><b>서비스</b></td><td>1 연구개발업</td><td colspan="2">5 서비스업 — 생산·판매·유통이 제공 하나로 융합</td></tr>
+</tbody>`;
+  root.appendChild(mx);
+
   root.appendChild(el('div','section-title','법령 기준 산업범위 — 연구개발 · 생산 · 제조 · 판매·유통 · 서비스'));
   const byCode = new Map(dae.map(d=>[d.code,d]));
   const makeEcoCard = code=>{
