@@ -1302,24 +1302,6 @@ function downloadWorkbook(){
   a.remove();
   setTimeout(()=>URL.revokeObjectURL(url), 1000);
 }
-function downloadWorkbook(){
-  if(!XLSX_B64){
-    alert('엑셀 데이터가 아직 생성되지 않았습니다. build_index.py를 실행하세요.');
-    return;
-  }
-  const bin = atob(XLSX_B64);
-  const bytes = new Uint8Array(bin.length);
-  for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '그린바이오산업_특수분류표_3차.xlsx';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 1000);
-}
 
 // ---------------- 분류표 tab ----------------
 let currentLevel = 'dae'; // dae, jung, so
