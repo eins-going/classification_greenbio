@@ -1165,11 +1165,13 @@ function renderCompanies(){
     return;
   }
     root.innerHTML='';
-    root.appendChild(el('div','section-title','그린바이오기업 신고제 기업 목록'));
+    root.appendChild(el('div','section-title','그린바이오기업 신고제 기업 목록 — 소분류 배정(규칙 기반 1차)'));
+    const note=el('p','cl-intro','소분류 배정은 사업내용·기업 노트의 어휘를 활동(제조·생산·연구개발·판매유통·서비스)과 품목 신호로 점수화한 규칙 모델 v1의 결과다. 확신도 상·중·하를 함께 표시하며, 신호가 없는 기업은 보류로 둔다. 기업 노트의 판정 메모가 항상 기계 배정에 우선한다.');
+    root.appendChild(note);
     const toolbar=el('div','company-toolbar');
     const search=document.createElement('input');
     search.className='company-search'; search.type='search';
-    search.placeholder='기업명, 사업내용, 법정 분야 검색';
+    search.placeholder='기업명, 사업내용, 소분류 검색';
     search.setAttribute('aria-label','신고기업 검색');
     const mdFilter=document.createElement('select');
     mdFilter.className='company-filter'; mdFilter.setAttribute('aria-label','MD 존재 여부');
@@ -1180,27 +1182,35 @@ function renderCompanies(){
     [...new Set(companies.map(company=>company.legal_field).filter(Boolean))].sort().forEach(value=>{
       const option=document.createElement('option'); option.value=value; option.textContent=value; fieldFilter.appendChild(option);
     });
+    const gbscFilter=document.createElement('select');
+    gbscFilter.className='company-filter'; gbscFilter.setAttribute('aria-label','소분류');
+    gbscFilter.innerHTML='<option value="">소분류 전체</option><option value="__hold__">보류만</option>';
+    [...new Set(companies.map(company=>company.gbsc_code).filter(Boolean))].sort().forEach(value=>{
+      const option=document.createElement('option'); option.value=value;
+      option.textContent=value+' '+(companies.find(c=>c.gbsc_code===value).gbsc_name||'');
+      gbscFilter.appendChild(option);
+    });
     const regionFilter=document.createElement('select');
     regionFilter.className='company-filter'; regionFilter.setAttribute('aria-label','지역');
     regionFilter.innerHTML='<option value="">지역 전체</option>';
     const regions=[...new Set(companies.map(company=>company.region).filter(Boolean))].sort();
     regions.forEach(value=>{ const option=document.createElement('option'); option.value=value; option.textContent=value; regionFilter.appendChild(option); });
     const count=el('span','company-count');
-    toolbar.append(search,mdFilter,fieldFilter,regionFilter,count); root.appendChild(toolbar);
+    toolbar.append(search,mdFilter,fieldFilter,gbscFilter,regionFilter,count); root.appendChild(toolbar);
     const wrap=el('div','company-table-wrap');
     const table=el('table','company-table');
-    table.innerHTML='<thead><tr><th>번호</th><th>기업명</th><th>지역</th><th>MD</th><th>사업내용</th><th>법정 분야</th><th>그린바이오 해당 근거</th></tr></thead><tbody></tbody>';
+    table.innerHTML='<thead><tr><th>번호</th><th>기업명</th><th>지역</th><th>MD</th><th>사업내용</th><th>법정 분야</th><th>소분류 배정</th><th>확신</th></tr></thead><tbody></tbody>';
     const tbody=table.querySelector('tbody'); wrap.appendChild(table); root.appendChild(wrap);
     const draw=list=>{
       tbody.innerHTML='';
       list.forEach(company=>{
         const tr=document.createElement('tr');
         const md=company.md_exists==='Y' ? '있음' : '없음';
-        tr.innerHTML='<td class="mono">'+esc(company.company_id)+'</td><td>'+esc(company.company_name)+'</td><td>'+esc(company.region||'')+'</td><td class="'+(company.md_exists==='Y'?'yes':'no')+'">'+md+'</td><td class="business">'+esc(company.business_description||'')+'</td><td>'+esc(company.legal_field||'')+'</td><td class="reason">'+esc(company.greenbio_legal_reason||'')+'</td>';
+        tr.innerHTML='<td class="mono">'+esc(company.company_id)+'</td><td>'+esc(company.company_name)+'</td><td>'+esc(company.region||'')+'</td><td class="'+(company.md_exists==='Y'?'yes':'no')+'">'+md+'</td><td class="business">'+esc(company.business_description||'')+'</td><td>'+esc(company.legal_field||'')+'</td><td>'+(company.gbsc_code?('<span class="mono">'+esc(company.gbsc_code)+'</span> '+esc(company.gbsc_name||'')):'보류')+'</td><td>'+esc(company.gbsc_conf||'')+'</td>';
         tbody.appendChild(tr);
       });
       count.textContent='전체 '+companies.length.toLocaleString('ko-KR')+'개 · 표시 '+list.length.toLocaleString('ko-KR')+'개';
-      if(!list.length) tbody.innerHTML='<tr><td colspan="7" class="company-empty">검색 결과가 없습니다.</td></tr>';
+      if(!list.length) tbody.innerHTML='<tr><td colspan="8" class="company-empty">검색 결과가 없습니다.</td></tr>';
     };
     const applyFilters=()=>{
       const q=search.value.trim().toLowerCase();
@@ -1208,12 +1218,13 @@ function renderCompanies(){
         (!q || Object.values(company).join(' ').toLowerCase().includes(q)) &&
         (!mdFilter.value || company.md_exists===mdFilter.value) &&
         (!fieldFilter.value || company.legal_field===fieldFilter.value) &&
+        (!gbscFilter.value || (gbscFilter.value==='__hold__' ? !company.gbsc_code : company.gbsc_code===gbscFilter.value)) &&
         (!regionFilter.value || company.region===regionFilter.value)
       ));
     };
     draw(companies);
     search.addEventListener('input',applyFilters);
-    [mdFilter,fieldFilter,regionFilter].forEach(filter=>filter.addEventListener('change',applyFilters));
+    [mdFilter,fieldFilter,gbscFilter,regionFilter].forEach(filter=>filter.addEventListener('change',applyFilters));
 }
 
 // ---------------- 판정 체크리스트 tab ----------------
