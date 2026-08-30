@@ -1270,49 +1270,13 @@ function renderChecklist(){
 // ---------------- 다운로드 tab ----------------
 function renderDownload(){
   const root = document.getElementById('panel-download');
-  root.innerHTML = '<div class="section-title">그린바이오산업 특수분류 확정안</div><div class="dl-card"><h3>분류표 엑셀 (제4차)</h3><p>대·중·소분류표(셀 병합)와 소분류 정의, KSIC 제11차 연계표(소분류×KSIC 짝마다 한 행)를 담은 엑셀입니다. 저장소 xlsx/의 4차 확정본과 같은 바이트입니다.</p><button type="button" class="dl-btn" id="downloadXlsx">Excel 파일 다운로드 (.xlsx)</button><div class="dl-meta">파일명 그린바이오산업_특수분류표_4차.xlsx</div></div><div class="dl-card"><h3>정의 전문 Markdown</h3><p>현재 화면에 반영된 대·중·소분류와 소분류 정의를 Markdown 문서로 내려받을 수 있습니다.</p><button type="button" class="dl-btn" id="downloadMarkdown">Markdown 파일 다운로드 (.md)</button><div class="dl-meta">파일명 그린바이오산업_특수분류_확정안.md</div></div>';
-  root.querySelector('#downloadXlsx').addEventListener('click',()=>{
-    const bin=atob(XLSX_B64); const u8=new Uint8Array(bin.length);
-    for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
-    const blob=new Blob([u8],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-    const url=URL.createObjectURL(blob); const link=document.createElement('a');
-    link.href=url; link.download='그린바이오산업_특수분류표_4차.xlsx';
-    document.body.appendChild(link); link.click(); link.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-  });
-  root.querySelector('#downloadMarkdown').addEventListener('click',()=>{
-    const lines=['# 그린바이오산업 특수분류 확정안',''];
-    DATA.dae.forEach(d=>{
-      lines.push('## '+d.code+' '+d.name,'');
-      if(d.def) lines.push(d.def,'');
-      lines.push('```text',d.code+' '+d.name);
-      const jList=DATA.jung.filter(j=>j.dae===d.code);
-      jList.forEach((j,ji)=>{
-        const lastJ=ji===jList.length-1;
-        lines.push((lastJ?'└─ ':'├─ ')+j.code+' '+j.name);
-        const sList=DATA.so.filter(s=>s.jung===j.code);
-        sList.forEach((s,si)=>lines.push((lastJ?'   ':'│  ')+(si===sList.length-1?'└─ ':'├─ ')+s.code+' '+s.name));
-      });
-      lines.push('```','');
-    });
-    lines.push('## 분류 정의','');
-    // 정의는 소분류에만 둔다. 대분류·중분류는 이름만 싣는다.
-    DATA.so.forEach(item=>lines.push('### '+item.code+' '+item.name,'',item.def,''));
-    const blob=new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const link=document.createElement('a');
-    link.href=url; link.download='그린바이오산업_특수분류_확정안.md';
-    document.body.appendChild(link); link.click(); link.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-  });
-  return;
   const bytes = Math.round(XLSX_B64.length * 3 / 4);
   const size = bytes > 1024 ? (bytes/1024).toFixed(0)+'KB' : bytes+'B';
 
   root.appendChild(el('div','section-title','그린바이오산업 특수분류표 내려받기'));
 
   const card = el('div','dl-card');
-  card.appendChild(el('h3','','제3차 그린바이오산업 특수분류(안)'));
+  card.appendChild(el('h3','','제4차 그린바이오산업 특수분류 확정안'));
 
   const btn = document.createElement('button');
   btn.type = 'button';
@@ -1320,10 +1284,28 @@ function renderDownload(){
   btn.textContent = '엑셀 파일 다운로드 (.xlsx)';
   btn.addEventListener('click', downloadWorkbook);
   card.appendChild(btn);
-  card.appendChild(el('div','dl-meta', '파일명 그린바이오산업_특수분류표_3차.xlsx · 약 '+size));
+  card.appendChild(el('div','dl-meta', '파일명 그린바이오산업_특수분류표_4차.xlsx · 약 '+size));
   root.appendChild(card);
 }
 
+function downloadWorkbook(){
+  if(!XLSX_B64){
+    alert('엑셀 데이터가 아직 생성되지 않았습니다. build_gbsc64_xlsx.py를 실행하세요.');
+    return;
+  }
+  const bin = atob(XLSX_B64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '그린바이오산업_특수분류표_4차.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
 function downloadWorkbook(){
   if(!XLSX_B64){
     alert('엑셀 데이터가 아직 생성되지 않았습니다. build_index.py를 실행하세요.');
