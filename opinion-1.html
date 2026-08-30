@@ -459,6 +459,39 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
 </style>
 </head>
 <body>
+<div id="gate" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:var(--bg,#fff);">
+  <form id="gate-form" style="width:min(320px,86vw);padding:28px 26px;border:1px solid var(--border,#ddd);border-radius:12px;background:var(--surface,#fff);text-align:center;">
+    <div style="font-size:15px;font-weight:700;margin-bottom:4px;">그린바이오산업 특수분류(안)</div>
+    <div style="font-size:12px;color:var(--text-muted,#888);margin-bottom:16px;">열람 코드를 입력하세요</div>
+    <input id="gate-pin" type="password" inputmode="numeric" autocomplete="off" aria-label="열람 코드"
+      style="width:100%;box-sizing:border-box;padding:10px 12px;font-size:16px;text-align:center;letter-spacing:6px;border:1px solid var(--border,#ccc);border-radius:8px;background:var(--bg,#fff);color:var(--text,#111);">
+    <button type="submit" style="width:100%;margin-top:10px;padding:10px 0;font-size:14px;font-weight:600;border:none;border-radius:8px;background:var(--accent,#2b7a3f);color:#fff;cursor:pointer;">확인</button>
+    <div id="gate-err" style="min-height:16px;margin-top:8px;font-size:12px;color:#c0392b;"></div>
+  </form>
+</div>
+<script>
+(function(){
+  var HASH='6b24cff1a042657a0e0ef7634c80d21d7a4f052ba040a5497a4effa6b7c6959b';
+  var gate=document.getElementById('gate');
+  function unlock(){ gate.remove(); document.documentElement.style.overflow=''; }
+  if(sessionStorage.getItem('gbsc_auth')==='1'){ unlock(); return; }
+  document.documentElement.style.overflow='hidden';
+  async function sha256hex(s){
+    var buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+  }
+  document.getElementById('gate-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var v=document.getElementById('gate-pin').value.trim();
+    var err=document.getElementById('gate-err');
+    if(!window.crypto||!crypto.subtle){ err.textContent='이 브라우저에서는 검증을 수행할 수 없습니다.'; return; }
+    if(await sha256hex(v)===HASH){ sessionStorage.setItem('gbsc_auth','1'); unlock(); }
+    else { err.textContent='코드가 올바르지 않습니다.'; document.getElementById('gate-pin').value=''; }
+  });
+  document.getElementById('gate-pin').focus();
+})();
+</script>
+
 
 <div class="layout" id="layout">
   <aside class="sidebar" id="sidebar">
