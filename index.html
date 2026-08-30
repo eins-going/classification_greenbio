@@ -1166,23 +1166,23 @@ function renderCompanies(){
     const toolbar=el('div','company-toolbar');
     const search=document.createElement('input');
     search.className='company-search'; search.type='search';
-    search.placeholder='기업명, 사업내용 검색';
+    search.placeholder='기업명 검색';
     search.setAttribute('aria-label','신고기업 검색');
     const count=el('span','company-count');
     toolbar.append(search,count); root.appendChild(toolbar);
     const wrap=el('div','company-table-wrap');
     const table=el('table','company-table');
-    table.innerHTML='<thead><tr><th>번호</th><th>기업명</th><th>사업내용</th></tr></thead><tbody></tbody>';
+    table.innerHTML='<thead><tr><th>번호</th><th>기업명</th></tr></thead><tbody></tbody>';
     const tbody=table.querySelector('tbody'); wrap.appendChild(table); root.appendChild(wrap);
     const draw=list=>{
       tbody.innerHTML='';
       list.forEach(company=>{
         const tr=document.createElement('tr');
-        tr.innerHTML='<td class="mono">'+esc(company.company_id)+'</td><td>'+esc(company.company_name)+'</td><td class="business">'+esc(company.business_description||'')+'</td>';
+        tr.innerHTML='<td class="mono">'+esc(company.company_id)+'</td><td>'+esc(company.company_name)+'</td>';
         tbody.appendChild(tr);
       });
       count.textContent='전체 '+companies.length.toLocaleString('ko-KR')+'개 · 표시 '+list.length.toLocaleString('ko-KR')+'개';
-      if(!list.length) tbody.innerHTML='<tr><td colspan="3" class="company-empty">검색 결과가 없습니다.</td></tr>';
+      if(!list.length) tbody.innerHTML='<tr><td colspan="2" class="company-empty">검색 결과가 없습니다.</td></tr>';
     };
     const applyFilters=()=>{
       const q=search.value.trim().toLowerCase();
@@ -1534,7 +1534,7 @@ function renderHorizontalTable(root){
       });
     });
   });
-  if(!tbody.children.length) tbody.appendChild(el('tr','', '<td class="horizontal-empty" colspan="3">표시할 분류가 없습니다.</td>'));
+  if(!tbody.children.length) tbody.appendChild(el('tr','', '<td class="horizontal-empty" colspan="2">표시할 분류가 없습니다.</td>'));
   table.appendChild(tbody); wrapper.appendChild(table); root.appendChild(wrapper);
 }
 
