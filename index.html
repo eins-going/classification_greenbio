@@ -753,7 +753,7 @@ const XLSX_B64 = "UEsDBBQAAAAIAAAAIVyfrXQjEgEAADYDAAATAAAAW0NvbnRlbnRfVHlwZXNdLn
     {code:'2',name:'그린바이오 생산업',role:'생산',roleDesc:'그린바이오 생물자원의 재배·증식·사육 생산'},
     {code:'3',name:'그린바이오 제조업',role:'제조',roleDesc:'그린바이오 소재·농자재·식품·동물용 의약품 및 그 밖의 제품 제조'},
     {code:'4',name:'그린바이오 판매·유통업',role:'판매·유통',roleDesc:'다른 사업체가 생산·제조한 그린바이오 재화의 판매·유통'},
-    {code:'5',name:'그린바이오 서비스업',role:'서비스',roleDesc:'시험·분석, 정보·데이터, 환경 등 앞의 대분류에 해당하지 않는 그린바이오 관련 서비스'}
+    {code:'5',name:'그린바이오 서비스업',role:'서비스',roleDesc:'그린바이오 관련 서비스의 제공 — 서비스는 생산·판매·유통이 제공으로 융합된다'}
   ];
 
   DATA.jung=[
@@ -952,7 +952,7 @@ function renderStatus(){
   };
 
   const legalNote = el('div','law-box');
-  legalNote.innerHTML = '<figcaption>분류 경계</figcaption><p>「그린바이오산업 육성에 관한 법률」 제2조에 따라 그린바이오를 활용하여 법정 관련 분야의 재화 또는 서비스를 <b>개발·생산·판매·유통</b>하는 산업활동을 분류한다. 생산은 생물자원 생산(2)과 제조(3)로 나누어 편성하고, 서비스업(5)은 앞의 대분류에 해당하지 않는 관련 서비스를 담는다. 단순 생태계 연관성만으로는 포함하지 않는다.</p>';
+  legalNote.innerHTML = '<figcaption>분류 경계</figcaption><p>「그린바이오산업 육성에 관한 법률」 제2조에 따라 그린바이오를 활용하여 법정 관련 분야의 재화 또는 서비스를 <b>개발·생산·판매·유통</b>하는 산업활동을 분류한다. 생산은 생물자원 생산(2)과 제조(3)로 나누어 편성한다. 서비스는 생산과 소비가 분리되지 않아 생산·판매·유통이 제공 하나로 합쳐지므로, 서비스의 개발은 연구개발업(1)에, 서비스의 제공은 서비스업(5)에 편성한다. 단순 생태계 연관성만으로는 포함하지 않는다.</p>';
   root.appendChild(legalNote);
 
   const ecosystem = el('figure','ecosystem-map');
