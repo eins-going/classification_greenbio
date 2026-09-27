@@ -220,6 +220,7 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
 }
 .eco-core-flow{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);gap:6px;align-items:stretch;}
 .eco-core-flow .eco-card{border-color:#d2e3fc;box-shadow:none;}
+.eco-card.rd-highlight{border-color:#d93025;}
 .eco-support-bridge{
   display:grid;grid-template-columns:repeat(4,1fr);align-items:end;
   height:27px;margin:0 5%;color:var(--accent);font-size:16px;font-weight:800;
@@ -951,6 +952,7 @@ function renderStatus(){
     if(!d) throw new Error('대분류 코드 누락: '+code);
     const box = el('div','eco-card');
     box.dataset.code = code;
+    if(code==='1') box.classList.add('rd-highlight');
     const role = el('div','role');
     role.textContent = d.role;
     const name = el('div','name');
@@ -989,6 +991,7 @@ function renderStatus(){
   ];
   const makeAltCard = c=>{
     const box = el('div','eco-card');
+    if(c.role==='연구개발') box.classList.add('rd-highlight');
     const role = el('div','role');
     role.textContent = c.role;
     const name = el('div','name');
