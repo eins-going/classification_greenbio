@@ -980,14 +980,12 @@ function renderStatus(){
   root.appendChild(ecosystem);
 
   root.appendChild(el('div','section-title','2. (후보안) 표준산업분류 중심'));
-  const altGroups = [
-    [
-      {role:'생산', num:'1', name:'그린바이오 생산업'},
-      {role:'제조', num:'2', name:'그린바이오 제조업'},
-      {role:'판매·유통', num:'3', name:'그린바이오 판매·유통업'}
-    ],
-    [ {role:'연구개발', num:'4', name:'그린바이오 연구개발업'} ],
-    [ {role:'서비스', num:'5', name:'그린바이오 정보·환경 및 기타 서비스업'} ]
+  const altList = [
+    {role:'생산', num:'1', name:'그린바이오 생산업'},
+    {role:'제조', num:'2', name:'그린바이오 제조업'},
+    {role:'판매·유통', num:'3', name:'그린바이오 판매·유통업'},
+    {role:'연구개발', num:'4', name:'그린바이오 연구개발업'},
+    {role:'서비스', num:'5', name:'그린바이오 정보·환경 및 기타 서비스업'}
   ];
   const makeAltCard = c=>{
     const box = el('div','eco-card');
@@ -1003,15 +1001,12 @@ function renderStatus(){
     return box;
   };
   const altMap = el('figure','ecosystem-map');
-  altMap.setAttribute('aria-label','표준산업분류 순서 기준 후보안');
-  altGroups.forEach(group=>{
-    const row = el('div','eco-main legal-scope');
-    row.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
-    row.style.gap = '8px';
-    row.style.marginBottom = '8px';
-    group.forEach(c=>row.appendChild(makeAltCard(c)));
-    altMap.appendChild(row);
-  });
+  const altFlow = el('div','eco-main legal-scope');
+  altFlow.setAttribute('aria-label','표준산업분류 순서 기준 후보안');
+  altFlow.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
+  altFlow.style.gap = '8px';
+  altList.forEach(c=>altFlow.appendChild(makeAltCard(c)));
+  altMap.appendChild(altFlow);
   root.appendChild(altMap);
 
   root.appendChild(el('div','section-title','대분류별 중·소분류 분포'));
