@@ -936,7 +936,7 @@ function renderStatus(){
   const root = document.getElementById('panel-status');
   const dae = DATA.dae, jung = DATA.jung, so = DATA.so;
 
-  root.appendChild(el('div','section-title','법 제2조제2호의 완전분해 — 재화·서비스 × 개발·생산·판매·유통'));
+  root.appendChild(el('div','section-title','1. (추진안) 그린바이오법 중심 : 법 제2조제2호의 완전분해 — 재화·서비스 × 개발·생산·판매·유통'));
   const mx = el('table','dist-table matrix-table');
   mx.innerHTML = `<thead><tr><th style="width:90px"></th><th>개발</th><th>생산</th><th>판매·유통</th></tr></thead>
 <tbody>
@@ -978,6 +978,41 @@ function renderStatus(){
   ecosystem.appendChild(mainFlow);
 
   root.appendChild(ecosystem);
+
+  root.appendChild(el('div','section-title','2. (후보안) 표준산업분류 중심'));
+  const altGroups = [
+    [
+      {role:'생산', num:'1', name:'그린바이오 생산업'},
+      {role:'제조', num:'2', name:'그린바이오 제조업'},
+      {role:'판매·유통', num:'3', name:'그린바이오 판매·유통업'}
+    ],
+    [ {role:'연구개발', num:'4', name:'그린바이오 연구개발업'} ],
+    [ {role:'서비스', num:'5', name:'그린바이오 정보·환경 및 기타 서비스업'} ]
+  ];
+  const makeAltCard = c=>{
+    const box = el('div','eco-card');
+    const role = el('div','role');
+    role.textContent = c.role;
+    const name = el('div','name');
+    const num = el('span','eco-num');
+    num.textContent = c.num+'.';
+    name.appendChild(num);
+    name.appendChild(document.createTextNode(c.name));
+    box.appendChild(role);
+    box.appendChild(name);
+    return box;
+  };
+  const altMap = el('figure','ecosystem-map');
+  altMap.setAttribute('aria-label','표준산업분류 순서 기준 후보안');
+  altGroups.forEach(group=>{
+    const row = el('div','eco-main legal-scope');
+    row.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
+    row.style.gap = '8px';
+    row.style.marginBottom = '8px';
+    group.forEach(c=>row.appendChild(makeAltCard(c)));
+    altMap.appendChild(row);
+  });
+  root.appendChild(altMap);
 
   root.appendChild(el('div','section-title','대분류별 중·소분류 분포'));
   const table = el('table','dist-table');
