@@ -1092,7 +1092,9 @@ function renderStatus(){
 
   root.appendChild(ecosystem);
 
-  root.appendChild(el('div','section-title','2. (후보안) 표준산업분류 중심'));
+  const altTitle = el('div','section-title','2. (후보안) 표준산업분류 중심');
+  altTitle.style.color = '#d93025';
+  root.appendChild(altTitle);
   const altList = [
     {role:'생산', num:'1', name:'그린바이오 생산업'},
     {role:'제조', num:'2', name:'그린바이오 제조업'},
