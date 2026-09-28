@@ -1875,10 +1875,6 @@ function afscBlock(item){
     const tr = document.createElement('tr');
     const c1 = document.createElement('td'); c1.className='mono'; c1.textContent = r.code;
     const c2 = document.createElement('td'); c2.textContent = r.name;
-    if(r.x){
-      c2.appendChild(document.createElement('br'));
-      c2.appendChild(el('span','muted','KSIC 교차: '+r.x));
-    }
     const c3 = document.createElement('td');
     const warn = r.level.indexOf('주의') >= 0;
     const tag = el('span','lvl lvl-'+(warn?'hold':'cond'), warn?'주의':'부분대응');
