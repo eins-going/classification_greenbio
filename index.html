@@ -1483,7 +1483,7 @@ let definitionCheckbox = null;
 
 const PANELS = {
   def:   {label:'정의',        cls:'node-def',   open:'def-open'},
-  ksic:  {label:'KSIC 연계코드(후보)', cls:'node-ksic',  open:'ksic-open'},
+  ksic:  {label:'KSIC 연계코드', cls:'node-ksic',  open:'ksic-open'},
   afsc:  {label:'AFSC 연계',    cls:'node-afsc',  open:'afsc-open'}
 };
 
@@ -1655,7 +1655,7 @@ function renderHorizontalTable(root){
   const headers = ['대분류','중분류'];
   if(isSo) headers.push('소분류');
   if(isSo && showPanels.def) headers.push('소분류 정의');
-  if(isSo && showPanels.ksic) headers.push('KSIC 제11차 연계코드(후보)');
+  if(isSo && showPanels.ksic) headers.push('KSIC 제11차 연계코드');
   if(isSo && showPanels.afsc) headers.push('AFSC(농축산식품산업 특수분류) 연계');
   headers.forEach(label=>head.appendChild(el('th','',label)));
   thead.appendChild(head); table.appendChild(thead);
@@ -1836,7 +1836,7 @@ function renderTable(){
 // KSIC11 세세분류 연계. `2차 수준`은 연계표의 핵심/조건부/검토유보를 그대로 쓴다.
 function ksicBlock(item){
   const b = el('div','def-block');
-  b.appendChild(el('div','lbl','KSIC 제11차 연계코드(후보)'));
+  b.appendChild(el('div','lbl','KSIC 제11차 연계코드'));
   const rows = item.ksic || [];
   if(!rows.length){
     b.appendChild(el('div','muted','연계표에 등재된 대응 코드가 없다.'));
