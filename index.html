@@ -1620,7 +1620,6 @@ function horizontalAfscCell(item){
     const li = document.createElement('li');
     li.appendChild(el('span','ksic-code',r.code));
     li.appendChild(document.createTextNode(' '+r.name));
-    li.appendChild(el('span','lvl',r.level));
     ul.appendChild(li);
   });
   td.appendChild(ul);
@@ -1848,10 +1847,7 @@ function ksicBlock(item){
     const tr = document.createElement('tr');
     const c1 = document.createElement('td'); c1.className='mono'; c1.textContent = r.code;
     const c2 = document.createElement('td'); c2.textContent = r.name;
-    const c3 = document.createElement('td');
-    const tag = el('span','lvl lvl-'+(r.level==='핵심'?'core':r.level==='조건부'?'cond':'hold'), r.level);
-    c3.appendChild(tag);
-    tr.append(c1,c2,c3); tbl.appendChild(tr);
+    tr.append(c1,c2); tbl.appendChild(tr);
   });
   b.appendChild(tbl);
   return b;
@@ -1875,12 +1871,8 @@ function afscBlock(item){
     const tr = document.createElement('tr');
     const c1 = document.createElement('td'); c1.className='mono'; c1.textContent = r.code;
     const c2 = document.createElement('td'); c2.textContent = r.name;
-    const c3 = document.createElement('td');
-    const warn = r.level.indexOf('주의') >= 0;
-    const tag = el('span','lvl lvl-'+(warn?'hold':'cond'), warn?'주의':'부분대응');
-    if(r.note) tag.title = r.note;
-    c3.appendChild(tag);
-    tr.append(c1,c2,c3); tbl.appendChild(tr);
+    if(r.note) c2.title = r.note;
+    tr.append(c1,c2); tbl.appendChild(tr);
   });
   b.appendChild(tbl);
   return b;
