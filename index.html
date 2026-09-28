@@ -1484,7 +1484,7 @@ let definitionCheckbox = null;
 const PANELS = {
   def:   {label:'정의',        cls:'node-def',   open:'def-open'},
   ksic:  {label:'KSIC 연계코드(후보)', cls:'node-ksic',  open:'ksic-open'},
-  afsc:  {label:'AFSC 연계(후보)',    cls:'node-afsc',  open:'afsc-open'}
+  afsc:  {label:'AFSC 연계',    cls:'node-afsc',  open:'afsc-open'}
 };
 
 function levelRank(l){ return {dae:0,jung:1,so:2}[l]; }
@@ -1656,7 +1656,7 @@ function renderHorizontalTable(root){
   if(isSo) headers.push('소분류');
   if(isSo && showPanels.def) headers.push('소분류 정의');
   if(isSo && showPanels.ksic) headers.push('KSIC 제11차 연계코드(후보)');
-  if(isSo && showPanels.afsc) headers.push('AFSC(농축산식품산업 특수분류) 연계(후보)');
+  if(isSo && showPanels.afsc) headers.push('AFSC(농축산식품산업 특수분류) 연계');
   headers.forEach(label=>head.appendChild(el('th','',label)));
   thead.appendChild(head); table.appendChild(thead);
 
@@ -1863,7 +1863,7 @@ function ksicBlock(item){
 // AFSC 자신이 KSIC와 연계돼 있어 삼각관계(GBSC↔AFSC↔KSIC)가 닫히는지 함께 보여 준다.
 function afscBlock(item){
   const b = el('div','def-block');
-  b.appendChild(el('div','lbl','AFSC(농축산식품산업 특수분류) 연계(후보)'));
+  b.appendChild(el('div','lbl','AFSC(농축산식품산업 특수분류) 연계'));
   const rows = item.afsc || [];
   if(!rows.length){
     b.appendChild(el('div','muted','대응하는 AFSC 세세분류가 없다(공백) — 연계표의 판정 사유 참조.'));
