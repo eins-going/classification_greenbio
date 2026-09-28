@@ -322,7 +322,8 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
 .node > .row:hover{background:var(--surface-hover);}
 .node.expanded > .row,
 .node.def-open > .row,
-.node.ksic-open > .row{border-bottom:1px solid var(--border);}
+.node.ksic-open > .row,
+.node.afsc-open > .row{border-bottom:1px solid var(--border);}
 .node > .kids{display:none;padding:10px 10px 12px 12px;background:var(--surface-hover);}
 .node.expanded > .kids{display:flex;flex-direction:column;gap:8px;}
 .row .code{
@@ -373,7 +374,8 @@ nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2p
 .node-detail{display:none;margin:10px 12px;gap:10px;}
 /* 정의·KSIC·사업체는 서로 독립이다. 셋 중 하나라도 열리면 컨테이너를 보인다. */
 .node.def-open > .node-detail,
-.node.ksic-open > .node-detail{display:flex;flex-wrap:wrap;align-items:flex-start;}
+.node.ksic-open > .node-detail,
+.node.afsc-open > .node-detail{display:flex;flex-wrap:wrap;align-items:flex-start;}
 .node-detail > *{flex:1 1 330px;min-width:0;}
 .node-detail > *[hidden]{display:none;}
 .def-block{
@@ -892,6 +894,13 @@ const XLSX_B64 = "UEsDBBQAAAAIAAAAIVyfrXQjEgEAADYDAAATAAAAW0NvbnRlbnRfVHlwZXNdLn
     {code:'532',jung:'53',name:'그린바이오 방제·농업환경 관리업',def:'천적곤충·미생물·바이오농약 등 그린바이오를 활용하여 농작물의 병해충을 방제하거나 축사·농지·농업용수의 환경을…'},
     {code:'590',jung:'59',name:'기타 그린바이오 서비스업',def:'앞의 중분류에 해당하지 않는 그 밖의 그린바이오 관련 서비스를 제공하는 산업활동을 말한다. 종자·균주 등 생…'}
   ];
+})();
+
+// AFSC(농축산식품산업 특수분류) 연계 — 확정안 소분류 코드 기준.
+// 근거: Development/연계작업/03_GBSC확정안_AFSC_연계표.md (연계 18개 소분류·33행, 직접대응 0)
+(function attachAfscLinks(){
+  const AFSC_LINKS = {"210": [{"code": "21122", "name": "종자 및 묘목 생산업", "level": "부분대응", "x": "01123 종자 및 묘목 생산업(핵심)", "note": "종자·묘목 증식·생산 활동은 겹치나 그린바이오 적용 여부를 식별하지 못한다."}], "229": [{"code": "21151", "name": "인삼 재배업", "level": "부분대응", "x": "01140 기타 작물 재배업(조건부)", "note": "소재용 식물 재배와 겹치나 그린바이오 소재 원료 여부와 기술 적용을 식별하지 못한다."}, {"code": "21152", "name": "약용작물 재배업", "level": "부분대응", "x": "01140 기타 작물 재배업(조건부)", "note": "위와 같다."}], "230": [{"code": "22900", "name": "기타 축산업", "level": "부분대응·주의", "x": "01299 그 외 기타 축산업(핵심)", "note": "정의가 \"실험용 쥐, …, 토끼, 개\" 사육을 명시하나 여우·곰·사슴·양잠 등 비실험 축산과 한 코드에 묶여 있고 실험동물법상 정체성·증식능력 유지 요건을 식별하지 못한다."}], "290": [{"code": "22610", "name": "식용곤충 사육업", "level": "부분대응", "x": "01299 그 외 기타 축산업(핵심)", "note": "확정안은 곤충 생산 전용 소분류가 없어 290 잔여로 받는다. 정의가 \"번식·증식·사육\"뿐이라 그린바이오 적용 여부를 구분하지 못한다."}, {"code": "22620", "name": "사료용 곤충 사육업", "level": "부분대응", "x": "01299 그 외 기타 축산업(핵심)", "note": "위와 같다(용도: 사료용)."}, {"code": "22690", "name": "기타 곤충 사육업", "level": "부분대응", "x": "01299 그 외 기타 축산업(핵심)", "note": "위와 같다. 애완·학습용(22630)은 배제."}, {"code": "22900", "name": "기타 축산업", "level": "부분대응·주의", "x": "01299 그 외 기타 축산업(조건부)", "note": "\"환형동물(지렁이 등) 사육\" 갈래만 해당하며 230과 코드를 공유한다(해상도 한계)."}, {"code": "31164", "name": "식품용 미생물 제조업", "level": "부분대응", "x": "10839 기타 식품 첨가물 제조업(조건부)", "note": "미생물 자체의 배양·생산은 확정안에서 290에 속한다. \"식품용\" 한정 부분집합."}], "311": [{"code": "33910", "name": "동식물 유래 한약 및 한약제제 제조업", "level": "부분대응", "x": "21220 한의약품 제조업(조건부)", "note": "식물 원형 건조·절단·정제 생약 제조가 겹친다(동물 유래 일부 혼재). 생명공학 적용 요건은 없다."}], "313": [{"code": "33200", "name": "곤충 가공 기타 제품 제조업", "level": "부분대응·주의", "x": "", "note": "곤충 건조·분쇄·가공 중 소재 갈래만 해당. 정의가 식용 가공식품에 방점이 있어 식품 제조(33x)와 갈래가 갈린다."}], "321": [{"code": "11152", "name": "농업용 생물 살균·살충제 및 식물보호제 제조업", "level": "부분대응", "x": "20322 생물 살균·살충제 및 식물보호제 제조업(핵심)", "note": "생물·미생물·식물 유효성분 활동은 겹치나 천연 무기화합물까지 포함한다. 11151(화학 농약)은 배제."}], "322": [{"code": "11133", "name": "유기질 비료 제조업", "level": "부분대응", "x": "20313 유기질 비료 및 상토 제조업(핵심)", "note": "일반 퇴비까지 포괄하는 컨테이너."}], "323": [{"code": "11161", "name": "축산용 배합사료 제조업", "level": "부분대응", "x": "10902 배합 사료 제조업(핵심)", "note": "발효·효소·생물전환 요건이 없어 일반 배합사료와 구분 불가."}, {"code": "11162", "name": "축산용 단미사료 및 기타 사료 제조업", "level": "부분대응", "x": "10903 단미사료 및 기타 사료 제조업(핵심)", "note": "위와 같다. \"조제 보조사료\"(첨가제 갈래) 포함."}], "331": [{"code": "31169", "name": "기타 식품 첨가물 제조업", "level": "부분대응", "x": "10839 기타 식품 첨가물 제조업(핵심)", "note": "첨가물·효소(효모 포함) 활동은 겹치나 화학·천연을 구분하지 않는 컨테이너."}], "332": [{"code": "31111", "name": "김치류 제조업", "level": "부분대응·주의", "x": "10301 김치류 제조업(조건부)", "note": "통상 자연발효 다수 — 제어발효공정 여부를 구분하지 못해 배제 위험 높음."}, {"code": "31163", "name": "장류 제조업", "level": "부분대응·주의", "x": "10833 장류 제조업(조건부)", "note": "위와 같다."}, {"code": "31211", "name": "탁주 및 약주 제조업", "level": "부분대응·주의", "x": "11111 탁주 및 약주 제조업(조건부)", "note": "위와 같다."}, {"code": "31212", "name": "맥아 및 맥주 제조업", "level": "부분대응·주의", "x": "11112 맥아 및 맥주 제조업(조건부)", "note": "위와 같다."}, {"code": "31219", "name": "농산물 가공 기타 발효주 제조업", "level": "부분대응·주의", "x": "11119 기타 발효주 제조업(조건부)", "note": "위와 같다."}, {"code": "31221", "name": "주정 제조업", "level": "부분대응·주의", "x": "11121 주정 제조업(조건부)", "note": "위와 같다."}], "333": [{"code": "31181", "name": "인삼식품 제조업", "level": "부분대응", "x": "10895 인삼식품 제조업(조건부)", "note": "위와 같다."}, {"code": "31183", "name": "건강 기능식품 제조업", "level": "부분대응", "x": "10897 건강 기능식품 제조업(핵심)", "note": "기능성 원료 사용은 겹치나 그린바이오 활용 입증 요건이 없다."}], "340": [{"code": "11171", "name": "축산용 의약품 제조업", "level": "부분대응", "x": "21230 동물용 의약품 제조업(핵심)", "note": "완제 약제품 제조는 겹치나 생물학적 제제와 합성의약품을 구분하지 못한다."}, {"code": "11172", "name": "반려동물용 의약품 제조업", "level": "부분대응", "x": "21230 동물용 의약품 제조업(핵심)", "note": "위와 같다(대상: 반려동물)."}], "391": [{"code": "33920", "name": "동식물 유래 천연 및 유기농 화장품 제조업", "level": "부분대응", "x": "20423 화장품 제조업(핵심)", "note": "제품범위는 겹치나 천연·유기농 표시만 있는 일반 화장품을 걸러내지 못한다."}], "410": [{"code": "13116", "name": "종묘 도매업", "level": "부분대응·주의", "x": "46202 종자 및 묘목 도매업(핵심)", "note": "취급 대상은 겹치나 일반 종자 도매가 대부분이라 배제 위험 높음."}], "531": [{"code": "89112", "name": "가축 분뇨 처리업", "level": "부분대응", "x": "", "note": "2026-09-28 신규 검토. 가축분뇨 처리 활동은 겹치나 곤충·미생물 등 생물학적 처리인지 물리화학적 처리인지 구분하지 못하는 컨테이너."}, {"code": "89120", "name": "음식 폐기물 수집 및 처리업", "level": "부분대응", "x": "", "note": "2026-09-28 신규 검토. 음식물류 폐기물 처리는 겹치나 매립·소각 등 비생물적 처리까지 포괄한다."}], "532": [{"code": "24299", "name": "그 외 기타 축산 관련 서비스업", "level": "부분대응·주의", "x": "", "note": "2026-09-28 신규 검토. \"관련 방역활동 포함\" 갈래만 겹치며, 천적곤충·미생물·바이오농약 활용 여부를 식별하지 못한다. 24111·24112(재배 지원)는 방제를 특정하지 않아 배제."}], "590": [{"code": "89401", "name": "농식품 관련 물질 성분 검사 및 분석, 인증업", "level": "부분대응", "x": "72911 물질 성분 검사 및 분석업(핵심)", "note": "시험·분석·인증 서비스는 확정안에 전용 소분류가 없어 590 잔여에 속한다. 그린바이오 특화 여부 확인 필요."}, {"code": "89409", "name": "기타 농산업 관련 시험, 검사 및 분석, 인증업", "level": "부분대응", "x": "72919 기타 기술 시험, 검사 및 분석업(조건부)", "note": "위와 같다."}]};
+  DATA.so.forEach(s => { if(AFSC_LINKS[s.code]) s.afsc = AFSC_LINKS[s.code]; });
 })();
 
 // GBSC 소분류 → KSIC 제11차 연계코드(후보). 제3차 연계작업을 승계하고 신설 코드는 정의서 색인으로 검증했다.
@@ -1468,13 +1477,14 @@ let currentLevel = 'dae'; // dae, jung, so
 let flatLevel = null;
 let horizontalView = false;
 let showAllDefinitions = false;
-const showPanels = {def:false, ksic:false};
+const showPanels = {def:false, ksic:false, afsc:false};
 const panelBoxes = {};
 let definitionCheckbox = null;
 
 const PANELS = {
   def:   {label:'정의',        cls:'node-def',   open:'def-open'},
-  ksic:  {label:'KSIC 연계코드(후보)', cls:'node-ksic',  open:'ksic-open'}
+  ksic:  {label:'KSIC 연계코드(후보)', cls:'node-ksic',  open:'ksic-open'},
+  afsc:  {label:'AFSC 연계(후보)',    cls:'node-afsc',  open:'afsc-open'}
 };
 
 function levelRank(l){ return {dae:0,jung:1,so:2}[l]; }
@@ -1544,6 +1554,8 @@ function createNode(level, item, children=[], initialExpanded=false){
   if(def) addPanel('def', defBlock(item), showAllDefinitions);
   // KSIC 연계와 사업체 예시는 소분류에만 붙는다(연계·배정 단위가 소분류다).
   if(level === 'so' && item.ksic)  addPanel('ksic',  ksicBlock(item),  showPanels.ksic);
+  // AFSC는 공백(대응 없음) 자체가 대조의 핵심 결론이라 연계가 없어도 패널을 붙여 밝힌다.
+  if(level === 'so') addPanel('afsc', afscBlock(item), showPanels.afsc);
 
   let toggleBtn = null;
   if(hasChildren){
@@ -1594,6 +1606,27 @@ function classCell(item, cls){
   return td;
 }
 
+// AFSC(농축산식품산업 특수분류) 연계 칸. 표시 얼개는 KSIC 칸과 같아 스타일을 공유한다.
+function horizontalAfscCell(item){
+  const td = document.createElement('td');
+  td.className = 'ksic-cell';
+  const rows = item.afsc || [];
+  if(!rows.length){
+    td.appendChild(el('span','muted','대응 세세분류 없음(공백)'));
+    return td;
+  }
+  const ul = el('ul','ksic-list');
+  rows.forEach(r=>{
+    const li = document.createElement('li');
+    li.appendChild(el('span','ksic-code',r.code));
+    li.appendChild(document.createTextNode(' '+r.name));
+    li.appendChild(el('span','lvl',r.level));
+    ul.appendChild(li);
+  });
+  td.appendChild(ul);
+  return td;
+}
+
 function horizontalKsicCell(item){
   const td = document.createElement('td');
   td.className = 'ksic-cell';
@@ -1623,6 +1656,7 @@ function renderHorizontalTable(root){
   if(isSo) headers.push('소분류');
   if(isSo && showPanels.def) headers.push('소분류 정의');
   if(isSo && showPanels.ksic) headers.push('KSIC 제11차 연계코드(후보)');
+  if(isSo && showPanels.afsc) headers.push('AFSC(농축산식품산업 특수분류) 연계(후보)');
   headers.forEach(label=>head.appendChild(el('th','',label)));
   thead.appendChild(head); table.appendChild(thead);
 
@@ -1649,6 +1683,7 @@ function renderHorizontalTable(root){
         tr.appendChild(classCell(s,'tier-so'));
         if(showPanels.def){ const td=el('td','definition-cell',esc(s.def)); tr.appendChild(td); }
         if(showPanels.ksic) tr.appendChild(horizontalKsicCell(s));
+        if(showPanels.afsc) tr.appendChild(horizontalAfscCell(s));
         tbody.appendChild(tr);
       });
     });
@@ -1703,14 +1738,14 @@ function renderTable(){
   const horizontalBox = document.createElement('input');
   horizontalBox.type = 'checkbox';
   horizontalBox.checked = horizontalView;
-  horizontalBox.setAttribute('aria-label','분류표 가로보기');
+  horizontalBox.setAttribute('aria-label','가로보기');
   horizontalBox.addEventListener('change',()=>{
     horizontalView = horizontalBox.checked;
     flatLevel = null;
     if(horizontalView && currentLevel === 'dae') currentLevel = 'so';
     renderTable();
   });
-  horizontalWrap.append(horizontalBox,document.createTextNode('분류표 가로보기'));
+  horizontalWrap.append(horizontalBox,document.createTextNode('가로보기'));
   toolbar.appendChild(horizontalWrap);
 
   const makeControl = (kind, text, disabled=false)=>{
@@ -1757,7 +1792,8 @@ function renderTable(){
   const visibleLevel = flatLevel || currentLevel;
   const soDetailsAvailable = visibleLevel === 'so';
   definitionCheckbox = makeControl('def', '정의 보기');
-  makeControl('ksic', 'KSIC 연계코드 보기', !soDetailsAvailable);
+  makeControl('ksic', 'KSIC 연계 보기', !soDetailsAvailable);
+  makeControl('afsc', 'AFSC 연계 보기', !soDetailsAvailable);
   root.appendChild(toolbar);
 
   if(horizontalView){
@@ -1814,6 +1850,39 @@ function ksicBlock(item){
     const c2 = document.createElement('td'); c2.textContent = r.name;
     const c3 = document.createElement('td');
     const tag = el('span','lvl lvl-'+(r.level==='핵심'?'core':r.level==='조건부'?'cond':'hold'), r.level);
+    c3.appendChild(tag);
+    tr.append(c1,c2,c3); tbl.appendChild(tr);
+  });
+  b.appendChild(tbl);
+  return b;
+}
+
+// AFSC(농축산식품산업 특수분류) 세세분류 연계. 직접대응이 0개라 판정은 모두
+// 부분대응(컨테이너)이고, 배제 위험이 특히 높은 행은 `부분대응·주의`다.
+// 괄호의 KSIC 코드는 그 AFSC 세세분류와 같은 활동영역을 가리키는 KSIC11 교차확인이다 —
+// AFSC 자신이 KSIC와 연계돼 있어 삼각관계(GBSC↔AFSC↔KSIC)가 닫히는지 함께 보여 준다.
+function afscBlock(item){
+  const b = el('div','def-block');
+  b.appendChild(el('div','lbl','AFSC(농축산식품산업 특수분류) 연계(후보)'));
+  const rows = item.afsc || [];
+  if(!rows.length){
+    b.appendChild(el('div','muted','대응하는 AFSC 세세분류가 없다(공백) — 연계표의 판정 사유 참조.'));
+    return b;
+  }
+  const tbl = document.createElement('table');
+  tbl.className = 'sub-table';
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const c1 = document.createElement('td'); c1.className='mono'; c1.textContent = r.code;
+    const c2 = document.createElement('td'); c2.textContent = r.name;
+    if(r.x){
+      c2.appendChild(document.createElement('br'));
+      c2.appendChild(el('span','muted','KSIC 교차: '+r.x));
+    }
+    const c3 = document.createElement('td');
+    const warn = r.level.indexOf('주의') >= 0;
+    const tag = el('span','lvl lvl-'+(warn?'hold':'cond'), warn?'주의':'부분대응');
+    if(r.note) tag.title = r.note;
     c3.appendChild(tag);
     tr.append(c1,c2,c3); tbl.appendChild(tr);
   });
