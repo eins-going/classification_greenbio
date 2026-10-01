@@ -1758,10 +1758,10 @@ function renderTable(){
   // 대·중분류이면 빈 체크 기능을 노출하지 않는다.
   const visibleLevel = flatLevel || currentLevel;
   const soDetailsAvailable = visibleLevel === 'so';
-  definitionCheckbox = makeControl('def', '정의 보기');
-  makeControl('ksic', 'KSIC 연계 보기', !soDetailsAvailable);
-  makeControl('afsc', 'AFSC 연계 보기', !soDetailsAvailable);
-  makeControl('ksj', 'KS J 1009 연계 보기', !soDetailsAvailable);
+  definitionCheckbox = makeControl('def', '정의');
+  makeControl('ksic', 'KSIC 연계', !soDetailsAvailable);
+  makeControl('afsc', 'AFSC 연계', !soDetailsAvailable);
+  makeControl('ksj', 'KS J 1009 연계', !soDetailsAvailable);
   root.appendChild(toolbar);
 
   if(horizontalView){
@@ -1842,7 +1842,6 @@ function ksjBlock(item){
     const desc=el('td','',esc(r.name));
     if(r.note) desc.title=r.note;
     tr.appendChild(desc);
-    tr.appendChild(el('td','',esc(r.level||'')));
     tbl.appendChild(tr);
   });
   b.appendChild(tbl);
