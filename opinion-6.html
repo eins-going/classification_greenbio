@@ -1918,21 +1918,6 @@ function defBlock(item){
 function renderEnglish(){
   const root=document.getElementById('panel-english');
   root.appendChild(el('div','section-title','Green-Bio Industry Special Classification — English Names and Definitions'));
-  root.appendChild(el('p','method-lead','제6차 대·중·소분류의 영문 명칭과 소분류 61개 정의의 자체 영문 번역. 대·중분류에는 정의 문장이 없으므로 해당 칸을 비워 둔다. 좁은 화면에서는 표를 좌우로 밀어 볼 수 있다.'));
-  const sources=el('p','method-lead','용어 참고: ');
-  const sourceLinks=[
-    ['그린바이오산업 육성법 영문본','https://elaw.klri.re.kr/kor_mobile/viewer.do?hseq=72191&key=7&type=sogan'],
-    ['농업생명자원의 보존·관리 및 이용에 관한 법률 영문본','https://elaw.klri.re.kr/kor_mobile/viewer.do?hseq=72036&key=24&type=part']
-  ];
-  sourceLinks.forEach(([label,url],i)=>{
-    if(i) sources.appendChild(document.createTextNode(' · '));
-    const link=el('a','',label);
-    link.href=url;
-    link.target='_blank';
-    link.rel='noopener noreferrer';
-    sources.appendChild(link);
-  });
-  root.appendChild(sources);
   const table=el('table','horizontal-table english-table');
   table.innerHTML='<thead><tr><th>수준 / Level</th><th>코드 / Code</th><th>한글 명칭</th><th>English name</th><th>English definition</th></tr></thead>';
   const body=el('tbody');
